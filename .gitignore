@@ -2,6 +2,8 @@
 *.o
 *.out
 !*.cxx
+!*.cc
+!*.C
 !*.cpp
 !*.h
 !*.hpp
