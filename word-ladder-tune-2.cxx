@@ -109,12 +109,12 @@ public:
 		auto it = find(wl.begin(), wl.end(), ew);
 		if (it == wl.end())
 			return 0;
-		*it = wl.back();
-		wl.resize(wl.size()-1);
+/* 		*it = wl.back();
+		wl.resize(wl.size()-1); */
 		if (xformOk(bw, ew)) {
 			return 2;
 		}
-		cout << bw << " -> " << ew  << " wl size " << wl.size() << endl << endl;
+		//cout << bw << " -> " << ew  << " wl size " << wl.size() << endl << endl;
 
 		WL_LEN = wl.size();
 		EW_IDX = WL_LEN + 1;
@@ -126,7 +126,7 @@ public:
 		initLens(bw, ew, wl);
 
 		int len =  ladder_len(0, EW_IDX);
-		cout << "raw depth " << len << endl;
+		//cout << "raw depth " << len << endl;
 		if (len > EW_IDX + 1)
 			return 0;
 		return len;
