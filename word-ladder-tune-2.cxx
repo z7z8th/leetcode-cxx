@@ -34,9 +34,9 @@ public:
 		int min_idx = MAX_LEN;
 
 		deque<int> bfs;
-		bfs.push_back(0);  // font
 		bfs.push_back(-1); // sep
 		bfs.push_back(1);  // depth
+		bfs.push_back(0);  // font
 /* 		for (auto i=0; i < candiList[s].size(); i++) {
 			bfs.push_back(candiList[s][i]);
 		}
@@ -55,7 +55,7 @@ public:
 				bfs.pop_front();
 
 				if (this_depth > prev_depth) {
-					cout << "path deepin " << this_depth << endl;
+					//cout << "path deepin " << this_depth << endl;
 				}
 				prev_depth = this_depth;
 				continue;
@@ -68,15 +68,15 @@ public:
 			if (done.find(front) != done.end())
 				continue;
 			done.emplace(front);
+			bfs.push_back(-1);
+/* 			if (bfs.front() < 0)
+				prev_depth = bfs.at(1); */
+			bfs.push_back(prev_depth+1);
 			vector<int> &frontCandi = candiList[front];
 			for (auto i=0; i < frontCandi.size(); i++) {
 				if (done.find(frontCandi[i]) == done.end())
 					bfs.push_back(frontCandi[i]);
 			}
-			bfs.push_back(-1);
-			if (bfs.front() < 0)
-				prev_depth = bfs.at(1);
-			bfs.push_back(prev_depth+1);
 		}
 		return MAX_LEN + 1;
 	}
@@ -125,7 +125,7 @@ public:
 
 		initLens(bw, ew, wl);
 
-		int len =  ladder_len(0, EW_IDX) + 1;
+		int len =  ladder_len(0, EW_IDX);
 		cout << "raw depth " << len << endl;
 		if (len > EW_IDX + 1)
 			return 0;
