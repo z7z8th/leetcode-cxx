@@ -188,7 +188,6 @@ vector<tuple<string, string, vector<string>, int>> tcs {
 
 
 int main() {
-	Solution sln;
 
 	for (auto tp : tcs) {
 		Solution sln;
@@ -198,6 +197,7 @@ int main() {
 			cout << " [WRONG], should be " << get<3>(tp);
 		cout << endl;
 	}
+	Solution sln;
 
 /* 	string bw = "hit";
 	string ew = "cog";

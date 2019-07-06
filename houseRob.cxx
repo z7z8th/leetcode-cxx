@@ -6,6 +6,7 @@
 #include <map>
 #include <algorithm>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 struct TreeNode {
