@@ -9,5 +9,8 @@
 		"istream": "cpp",
 		"tuple": "cpp",
 		"utility": "cpp"
+	},
+	"workbench.colorCustomizations": {
+		"tab.unfocusedActiveBorder": "#fff0"
 	}
 }
