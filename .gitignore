@@ -1,6 +1,8 @@
-*
+#*
 *.o
 *.out
+/objs
+/.vscode/ipch
 !*.cxx
 !*.cc
 !*.C
@@ -9,3 +11,4 @@
 !*.hpp
 !Makefile
 !.gitignore
+!*.sh
