@@ -45,26 +45,34 @@ using namespace std;
 
 class Solution {
 public:
-    string findReplaceString(string S, vector<int>& indexes, vector<string>& sources, vector<string>& targets) {
+    string findReplaceString(string str, vector<int>& indexes, 
+								vector<string>& sources, vector<string>& targets) {
 		if (indexes.size() == 0)
-			return S;
-		string sret; //(S.substr(0, indexes[0]));
-		int prevOffset = 0;
+			return str;
+		string sret(str);
+		map<int, tuple<bool, int>> map_;
         for (int i=0; i<indexes.size(); i++) {
 			int offset = indexes[i];
-			// cout << "[" << i << "] prevOffset " << prevOffset << " offset " << offset << endl;
-			sret.append(S.substr(prevOffset, offset-prevOffset));
-			string stmp(S.substr(offset, sources[i].size()));
-			if (stmp == sources[i]) {
-				sret.append(targets[i]);
-				prevOffset = offset + sources[i].size();
-			} else {
-				prevOffset = offset;
-			}
+			string& src = sources[i];
+			//cout << "[" << i << "] " << " offset " << offset 
+			//	 << " replace size " << src.size() << endl;
+			string stmp(str.substr(offset, src.size()));
+			bool match = stmp == src;
+			map_.emplace(offset, tuple<bool, int>{ match, i});
 		}
-		if (prevOffset < S.size()) {
-			sret.append(S.substr(prevOffset, S.size() - prevOffset));
+		int offset_diff = 0;
+		for (auto it=map_.begin(); it!=map_.end(); it++) {
+			int offset = it->first;
+			bool match = get<0>(it->second);
+			if (!match)
+				continue;
+			int idx = get<1>(it->second);
+			string& src = sources[idx];
+			string& tgt = targets[idx];
+			sret.replace(offset + offset_diff, src.size(), tgt);
+			offset_diff += tgt.size() - src.size();
 		}
+
 		return sret;
     }
 };
