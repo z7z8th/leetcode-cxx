@@ -25,6 +25,8 @@ Submissions
 #include <bits/stdc++.h>
 using namespace std;
 
+#warning still slow, should use bit operation, mod 3?
+
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
