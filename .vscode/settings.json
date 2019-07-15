@@ -8,7 +8,8 @@
 		"functional": "cpp",
 		"istream": "cpp",
 		"tuple": "cpp",
-		"utility": "cpp"
+		"utility": "cpp",
+		"cmath": "cpp"
 	},
 	"workbench.colorCustomizations": {
 		"tab.unfocusedActiveBorder": "#fff0"
