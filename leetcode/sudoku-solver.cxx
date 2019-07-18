@@ -174,7 +174,7 @@ public:
 		}
 		procUpdateQueue(bb);
 	}
-	int validateSet(map<int, int>& tmp, bool part = false) {
+/* 	int validateSet(unordered_map<int, int>& tmp, bool part = false) {
 		if (!part && tmp.size() != 9)
 			return 0;
 		for (int i=0; i<9; i++) {
@@ -186,40 +186,50 @@ public:
 			}
 		}
 		return 1;
-	}
+	} */
 	int validateSmallCube(vector<vector<int>>& bb, int rowBase, int colBase, bool part = false) {
 		rowBase = (rowBase / 3) * 3;
 		colBase = (colBase / 3) * 3;
-		map<int, int> tmp;
+		int mask = 0;
 		for (int i=rowBase; i<rowBase+3; i++) {
 			for (int j=colBase; j<colBase+3; j++) {
 				int val = bb[i][j];
-				if (!(val & MASK_TBD))
-					++tmp[val];
+				if (!(val & MASK_TBD)) {
+					if (val & mask)
+						return 0;
+					mask |= val;
+				}
 			}
 		}
-		return validateSet(tmp, part);
+		return part || mask == MASK_0_9;
 	}
 
 	int validateRow(vector<vector<int>>& bb, int row, bool part = false) {
-		map<int, int> tmp;
+		int mask = 0;
 		for (int j=0; j<9; j++) {
 			int val = bb[row][j];
-			if (!(val & MASK_TBD))
-				++tmp[val];
+			if (!(val & MASK_TBD)) {
+				if (val & mask)
+					return 0;
+				mask |= val;
+			}
 		}
-		return validateSet(tmp, part);
+		return part || mask == MASK_0_9;
 	}
 	int validateCol(vector<vector<int>>& bb, int col, bool part = false) {
-		map<int, int> tmp;
+		int mask = 0;
 		for (int i=0; i<9; i++) {
 			int val = bb[i][col];
-			if (!(val & MASK_TBD))
-				++tmp[val];
+			if (!(val & MASK_TBD)) {
+				if (val & mask)
+					return 0;
+				mask |= val;
+			}
 		}
-		return validateSet(tmp, part);
+
+		return part || mask == MASK_0_9;
 	}
-	int fastValidateSolve(vector<vector<int>>& bb) {
+/* 	int fastValidateSolve(vector<vector<int>>& bb) {
         for (int i=0; i<9; i++) {
 			for (int j=0; j<9; j++) {
 				if (bb[i][j] & MASK_TBD)
@@ -227,13 +237,14 @@ public:
 			}
         }
 		return 1;
-	}
+	} */
 
 	int validateSolve(vector<vector<int>>& bb) {
-		if (!fastValidateSolve(bb)) {
+/* 		if (!fastValidateSolve(bb)) {
+			cout << "fast validate fail" << endl;
 			return 0;
 		}
-
+ */
 		for (int i=0; i<9; i+=3) {
 			for (int j=0; j<9; j+=3) {
 				int ret = validateSmallCube(bb, i, j);
@@ -278,7 +289,7 @@ public:
 		}
 		return 1;
 	}
-
+/* 
 	int isSolved(vector<vector<int>>& bb) {
 		if (bb.size() != 9)
 			return 0;
@@ -298,7 +309,7 @@ public:
 		}
 		
 		return solved;
-	}
+	} */
 	char bitToChar(int val, int row=-1, int col=-1) {
 		if (val & MASK_TBD) {
 			//cout << "[" << row << "][" << col << "] " << hex << val << dec << endl;
@@ -369,9 +380,8 @@ public:
         }
 	}
 
-	bool tryTbdFrom(vector<vector<int>> bb, int si, int sj) {
+	bool tryTbdFrom(vector<vector<int>>& bb, int si, int sj) {
 		//cout << "try next " << si << ", " << sj << endl;
-		vector<vector<int>> bs;  // copy of bb
 		int j = sj;
 		for (int i=si; i<9; i++) {
 			//cout << "try i "<< i << endl;
@@ -383,33 +393,6 @@ public:
 				for (int bi=0; bi<9; bi++) {
 					if (!(val & (1<<bi)))
 						continue;
-#if 0
-					//cout << "try TBD " << i << ", " << j << " bit " << bi << endl;
-					copyBoard(bs, bb);
-					int& valRef = bs[i][j];
-					int val = valRef;
-					valRef = 1 << bi;
-					updateQueue.emplace_back(i, j);
-					if (procUpdateQueue(bs) < 0) {
-						valRef = val;
-						continue;
-					}
-					int ret = isSolved(bs);
-					if (ret == 1) {
-						//cout << "solved by try" << endl;
-						transformBitsBoardToChar(bs, *pbd);
-						printBoard(*pbd, "solved by try:");
-						return true;
-					}
-					if (ret == 2) {  // invalid board
-						valRef = val;
-						continue;
-					}
-					ret = tryTbdFrom(bs, i, j+1);
-					if (ret)
-						return ret;
-					valRef = val;
-#else
 					int& valRef = bb[i][j];
 					int val = valRef;
 					valRef = 1 << bi;
@@ -428,13 +411,11 @@ public:
 					if (ret)
 						return ret;
 					valRef = val;
-#endif
 				}
 				return false;
 			}
 			j = 0;
 		}
-		//cout << "try next " << si << ", " << sj << " return false" << endl;
 
 		return false;
 	}
@@ -456,12 +437,12 @@ public:
 		transformCharBoardToBits(board, bb);
 
 		updateBoard(bb);
-		if (isSolved(bb) == 1) {
+		if (validateSolve(bb) == 1) {
 			transformBitsBoardToChar(bb, board);
 			printBoard(board, "solved:");
 			return;
 		} else {
-			transformBitsBoardToChar(bb, board);
+			//transformBitsBoardToChar(bb, board);
 			printBoard(board, "not solved:");
 		}
 
@@ -472,9 +453,7 @@ public:
     }
 
 private:
-    //vector<vector<int>> bb;
 	vector<vector<char>> *pbd = nullptr;
-	vector<vector<int>> bsolv;
 	deque<pair<int, int>> updateQueue;
 	bool doPrintBoard = false;
 	pair<int, int> lastTbd {-1, -1};
@@ -493,7 +472,7 @@ int main() {
 			{'.','6','.','.','.','.','2','8','.'},
 			{'.','.','.','4','1','9','.','.','5'},
 			{'.','.','.','.','8','.','.','7','9'}
-		}, */
+		},
 		{
 			{'.','.','9', '7','4','8','.','.','.'},
 			{'7','.','.', '.','.','.','.','.','.'},
@@ -504,8 +483,8 @@ int main() {
 			{'.','.','.', '8','.','3','.','2','.'},
 			{'.','.','.', '.','.','.','.','.','6'},
 			{'.','.','.', '2','7','5','9','.','.'}
-		},
-		/* {
+		}, */
+		{
 			{'.','.','.',  '7','4','8',  '.','.','.'},
 			{'.','.','.',  '.','.','.',  '.','.','.'},
 			{'.','.','.',  '1','.','9',  '.','.','.'},
@@ -517,7 +496,7 @@ int main() {
 			{'.','.','.',  '8','.','3',  '.','.','.'},
 			{'.','.','.',  '.','.','.',  '.','.','.'},
 			{'.','.','.',  '2','7','5',  '.','.','.'}
-		}, */
+		},
 		{
 			{'1','.','.','.','7','.','.','3','.'},
 			{'8','3','.','6','.','.','.','.','.'},

@@ -3,6 +3,7 @@
 *.out
 /objs
 /.vscode/ipch
+perf.data*
 !*.cxx
 !*.cc
 !*.C
