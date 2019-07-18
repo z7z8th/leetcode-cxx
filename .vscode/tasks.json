@@ -18,10 +18,7 @@
             },
             "problemMatcher": [
                 "$gcc"
-            ],
-            "group": {
-                "kind": "build"
-            }
+            ]
         },{
             "type": "shell",
             "label": "g++ build active file [No Optimize]",
