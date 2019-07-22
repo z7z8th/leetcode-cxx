@@ -10,7 +10,8 @@
 		"tuple": "cpp",
 		"utility": "cpp",
 		"cmath": "cpp",
-		"vector": "cpp"
+		"vector": "cpp",
+		"deque": "cpp"
 	},
 	"workbench.colorCustomizations": {
 		"tab.unfocusedActiveBorder": "#fff0"
