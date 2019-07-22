@@ -31,16 +31,20 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+
         unordered_map<int, set<pair<int, int>>> map_;
         for (int i=0; i<nums.size(); i++) {
             for (int j=i+1; j<nums.size(); j++) {
                 int a = nums[i];
                 int b = nums[j];
                 if (a > b)
-                    swap(a, b);
-                map_[a+b].emplace(i, j);
+                	map_[a+b].emplace(j, i);
+				else
+					map_[a+b].emplace(i, j);
             }
         }
+
         vector<vector<int>> vec_;
         set<vector<int>> set_;
         for (int i=0; i<nums.size(); i++) {
@@ -98,7 +102,7 @@ int main() {
 	};
 	int tcIdx = 0;
 	for (auto& tc : tcs) {
-		cout << "case " << tcIdx++ << endl;
+		cout << "case " << tcIdx++ << " size " << tc.size() << endl;
 		Solution sln;
 		auto ret = sln.threeSum(tc);
 		//cout << ret << endl;
