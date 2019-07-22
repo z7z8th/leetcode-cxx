@@ -1,5 +1,10 @@
 #!/bin/bash
 
+[ ! -e "$1" ] && {
+    echo -e "usage:\n$0 path/to/file-name.cxx"
+    exit 1
+}
+
 src=$1
 bdir=`dirname $1`
 #outdir=objs/$bdir
