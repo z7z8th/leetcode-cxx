@@ -63,3 +63,9 @@ public:
         return true;
     }
 };
+
+/*
+NOTE:
+	This solution uses O(1) memory.
+	Another solution is to use hash table to check if a node is visited, uses O(n) memory.
+ */
