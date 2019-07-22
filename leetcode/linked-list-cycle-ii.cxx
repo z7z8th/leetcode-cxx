@@ -65,16 +65,19 @@ public:
             return nullptr;
 
         ListNode *cycMid = p1;
+        int cycLen = 0;
+        do {    
+            p1 = p1->next;
+            cycLen++;
+        } while(p1 != cycMid);
+        /* walk past head by cycLen, left len = list len - cycLen */
+        p1 = head;
+        while(cycLen--) {
+            p1 = p1->next;
+        }
         p2 = head;
         while(p1 != p2) {
-            p1 = cycMid->next;
-            while (p1 != cycMid) {
-                if (p1 == p2) {
-                    return p2;
-                } else {
-                    p1 = p1->next;
-                }
-            }
+            p1 = p1->next;
             p2 = p2->next;
         }
         return p2;
