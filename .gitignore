@@ -13,3 +13,9 @@ perf.data*
 !Makefile
 !.gitignore
 !*.sh
+
+# windows
+*.exe
+*.ilk
+*.obj
+*.pdb

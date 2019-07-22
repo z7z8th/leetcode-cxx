@@ -24,6 +24,16 @@
 			],
 			"preLaunchTask": "g++ build active file [No Optimize]",
 			"miDebuggerPath": "/usr/bin/gdb"
+		}, {
+			"name": "(Windows) Launch",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false
 		}
 	]
 }
