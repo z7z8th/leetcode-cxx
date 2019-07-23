@@ -43,10 +43,8 @@ public:
     }
 
 	void updateKeyAge(int key) {
-		int age = ageMap_[key];
-		ageMap_[key] = ++age_;
-		prioMap_.erase(age);
-		prioMap_[age_] = key;
+		auto lit = valMap_[key];
+		prio_.splice(prio_.end(), prio_, lit, std::next(lit));
 	}
 
     int get(int key) {
@@ -58,11 +56,11 @@ public:
 		updateKeyAge(key);
 		//cout << "get " << key << " = " << it->second << endl;
 
-        return it->second;
+        return it->second->second;
     }
 	void dumpPrioMap() {
 		cout << endl << "dumpPrioMap" << endl;
-		for (auto it=prioMap_.begin(); it!=prioMap_.end(); it++) {
+		for (auto it=prio_.begin(); it!=prio_.end(); it++) {
 			cout << "age " << it->first << " key " << it->second << endl;
 		}
 		cout << endl;
@@ -72,24 +70,25 @@ public:
 		//cout << "put " << key << " = " << value << endl;
         auto it = valMap_.find(key);
 
-        if (valMap_.size() == cap && it == valMap_.end()) {
+        if (prio_.size() == cap && it == valMap_.end()) {
 			//dumpPrioMap();
-			int delAge = prioMap_.begin()->first;
-			int delKey = prioMap_[delAge];
-			//cout << "evicts age " << delAge << " key " << delKey << endl;
-			prioMap_.erase(delAge);
+			int delKey = prio_.begin()->first;
+			//cout << "evicts key " << delKey << endl;
 			valMap_.erase(delKey);
-			ageMap_.erase(delKey);
+			prio_.erase(prio_.begin());
         }
-		valMap_[key] = value;
+		if (it != valMap_.end()) {
+			valMap_[key]->second = value;
+			updateKeyAge(key);
+		} else {
+			prio_.emplace_back(key, value);
+			valMap_.emplace(key, std::prev(prio_.end()));
+		}
 
-        updateKeyAge(key);
     }
-    map<int, int> valMap_;
-    map<int, int> ageMap_;
-    map<int, int> prioMap_;
+    unordered_map<int, list<pair<int, int>>::iterator> valMap_;
+	list<pair<int, int>> prio_;
     int cap;
-	int age_ = 0;
 };
 
 /**
@@ -100,7 +99,7 @@ public:
  */
 
 int main() {
-	#if 0
+	#if 1
 	LRUCache cache( 2 /* capacity */ );
 
 	cache.put(1, 1);
