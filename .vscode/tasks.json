@@ -19,9 +19,10 @@
             "options": {
                 "cwd": "/usr/bin"
             },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": "autoDetect"
+            },
         },{
             "type": "shell",
             "label": "g++ build active file [No Optimize]",
@@ -38,9 +39,10 @@
             "options": {
                 "cwd": "/usr/bin"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": "autoDetect"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -59,7 +61,7 @@
 			],
 			"problemMatcher": {
                 "owner": "cpp",
-                "fileLocation": "absolute",
+                "fileLocation": "autoDetect",
                 "pattern": {
                     "regexp": "^(.*)\\((\\d+)\\)\\s*:\\s*(warning|error).+:\\s+(.*)$",
                     "file": 1,
