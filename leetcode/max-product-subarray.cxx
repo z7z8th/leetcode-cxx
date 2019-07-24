@@ -20,6 +20,9 @@ Accepted
 Submissions
 756,352 */
 
+#include <bits/stdc++.h>
+
+using namespace std;
 
 class Solution {
 public:
@@ -29,30 +32,38 @@ public:
         int maxProd = nums[0];
         int prod;
         int firstNegIdx = -1;
+        int nextZeroIdx = -1;
         for (int si=0; si<nums.size(); si++) {
             prod = nums[si];
-            firstNegIdx = -1;
             if (prod == 0)
                 continue;
+            firstNegIdx = -1;
+            nextZeroIdx = -1;
             if (prod < 0)
                 firstNegIdx = si;
+			if (prod > maxProd)
+				maxProd = prod;
             for (int i=si+1; i<nums.size(); i++) {
                 int n = nums[i];
-                if (firstNegIdx < 0 && n < 0)
-                    firstNegIdx = i;
+
+                if (n > maxProd)
+                    maxProd = n;
+                if (n == 0) {
+                    nextZeroIdx = i;
+                    break;
+                }
+				prod *= n;
                 if (prod > maxProd)
                     maxProd = prod;
-                if (nums[i] > maxProd)
-                    maxProd = n;
-                if (prod != 0)
-                    prod *= n;
-                else
-                    prod = n;
+                if (firstNegIdx < 0 && n < 0)
+                    firstNegIdx = i;
             }
-            if (prod > maxProd)
-                maxProd = prod;
-            if (firstNegIdx >= 0)
+            if (firstNegIdx != -1 && prod < 0) // negtive prod, try from the one after first neg
                 si = firstNegIdx;
+            else if (nextZeroIdx != -1) // positive prod, try from the one after zero
+                si = nextZeroIdx;
+            else // positive and no zero, then done, !!!IMPORTANT!!!
+                break;
         }
         return maxProd;
     }
