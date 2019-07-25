@@ -40,35 +40,25 @@ using namespace std;
 
 class Solution {
 public:
-    int maxProfitRange(vector<int>& prices, int si, int ei) {
-        if (ei - si < 2)
-            return 0;
-        int minPrice = prices[si];
-        int maxProf = 0;
-        for (int i=si; i<ei; i++) {
-            if (prices[i] < minPrice)
-                minPrice = prices[i];
-            if (prices[i] - minPrice > maxProf)
-                maxProf = prices[i] - minPrice;
-        }
-        return maxProf;
-    }
     int maxProfit(vector<int>& prs) {
-        int maxProf = 0;
+        int buy_1 = INT_MAX;
+        int profit_1 = INT_MIN;
+        int buy_2 = INT_MAX;
+        int profit_2 = 0;
+        
         for (int i=0; i<prs.size(); i++) {
-            if (i > 0 && i < prs.size()-1) {
-                if (prs[i-1] < prs[i] && prs[i] < prs[i+1])
-                    continue;
-                if (prs[i-1] > prs[i] && prs[i] > prs[i+1])
-                    continue;
-            }
-            int profit = maxProfitRange(prs, 0, i) + maxProfitRange(prs, i, prs.size());
-            if (profit > maxProf) {
-                maxProf = profit;
-                // cout << "pivot idx " << i << " profit " << profit << endl;
-            }
+            /* same as maxprofit only one transcation allowed */
+            if (prs[i] < buy_1)
+                buy_1 = prs[i];
+            if (prs[i] - buy_1 > profit_1)
+                profit_1 = prs[i] - buy_1;
+            
+            if (prs[i] - profit_1 < buy_2)
+                buy_2 = prs[i] - profit_1; // preserve profit_1
+            if (prs[i] - buy_2 > profit_2)
+                profit_2 = prs[i] - buy_2;
         }
-        return maxProf;
+        return profit_2;
     }
 };
 
@@ -85,6 +75,7 @@ int main() {
         {{3,3,5,0,0,3,1,4}, 6},
         {{1,2,3,4,5}, 4},
         {{7,6,4,3,1}, 0},
+        {{}, 0}
     };
 
     int tcIdx = 0;
