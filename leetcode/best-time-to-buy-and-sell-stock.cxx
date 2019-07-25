@@ -35,28 +35,15 @@ public:
     int maxProfit(vector<int>& prices) {
         if (prices.size() < 2)
             return 0;
-        vector<int> mins(prices.size());
-        vector<int> maxs(prices.size());
         int minPrice = prices[0];
-        for (int i=0; i<prices.size()-1; i++) {
+        int maxProf = 0;
+        for (int i=0; i<prices.size(); i++) {
             if (prices[i] < minPrice)
                 minPrice = prices[i];
-            mins[i] = minPrice;
+            if (prices[i] - minPrice > maxProf)
+                maxProf = prices[i] - minPrice;
         }
-        int maxPrice = prices.back();
-        for (int i=prices.size()-1; i>0; i--) {
-            if (prices[i] > maxPrice)
-                maxPrice = prices[i];
-            maxs[i] = maxPrice;
-        }
-        int maxProfit = 0;
-        for (int i=0; i<prices.size()-1; i++) {
-            int profit = maxs[i+1] - mins[i];
-            if (profit > maxProfit) {
-                maxProfit = profit;
-            }
-        }
-        return maxProfit;
+        return maxProf;
     }
 };
 
