@@ -56,6 +56,12 @@ public:
     int maxProfit(vector<int>& prs) {
         int maxProf = 0;
         for (int i=0; i<prs.size(); i++) {
+            if (i > 0 && i < prs.size()-1) {
+                if (prs[i-1] < prs[i] && prs[i] < prs[i+1])
+                    continue;
+                if (prs[i-1] > prs[i] && prs[i] > prs[i+1])
+                    continue;
+            }
             int profit = maxProfitRange(prs, 0, i) + maxProfitRange(prs, i, prs.size());
             if (profit > maxProf) {
                 maxProf = profit;
