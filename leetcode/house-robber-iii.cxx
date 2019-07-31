@@ -70,27 +70,27 @@ struct TreeNode {
 class Solution {
 public:
     map<TreeNode*, int> vals;
-    int rob2(TreeNode *node, bool parentRobbed) {
+    int robEx(TreeNode *node, bool parentRobbed) {
         if (!node)
             return 0;
 
         int val1 = 0;
         int val2 = 0;
         if (parentRobbed) {
-            val1 = rob2(node->left, false) + rob2(node->right, false);
+            val1 = robEx(node->left, false) + robEx(node->right, false);
 			return val1;
         } else {
 			if (vals.find(node) != vals.end())
 				return vals[node];
-			val1 = rob2(node->left, false) + rob2(node->right, false);
-            val2 = node->val + rob2(node->left, true) + rob2(node->right, true);
+			val1 = robEx(node->left, false) + robEx(node->right, false);
+            val2 = node->val + robEx(node->left, true) + robEx(node->right, true);
 			int val = max(val1, val2);
 			vals[node] = val;
 			return val;
 		}
     }
     int rob(TreeNode* root) {
-        return rob2(root,  false);
+        return robEx(root,  false);
     }
 };
 
