@@ -93,28 +93,34 @@ int main() {
 }
 
 /*
-Sample 0ms solution from leetcode:
-One pass dp.
+sample 0 ms submission from leetcode
 
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        
-        int len = nums.size();
-        if(len==0)
+        if (nums.size() == 0)
             return 0;
-        
-        vector<int> dp(len,0);
-        if(len == 1)
+        else if (nums.size() == 1)
             return nums[0];
-        dp[0] = nums[0];
-        dp[1] = max(nums[0],nums[1]);
-        for(int i = 2;i<len;i++)
-        {
-            dp[i] = max(nums[i]+dp[i-2],dp[i-1]);
+        int robDay1[nums.size()]; // max profit if day i is robbed or not robbed
+        int notRobDay1[nums.size()];
+        // two options for day 1. Rob or not Rob
+        robDay1[0] = nums[0];
+        robDay1[1] = nums[0];
+       
+        for (int i = 2; i<nums.size() -1; i++){
+            robDay1[i] = max(robDay1[i-1], robDay1[i-2] + nums[i]); 
         }
         
-        return dp.back();
+        notRobDay1[0] = 0;
+        notRobDay1[1] = nums[1];
+        for (int i = 2; i<nums.size(); i++){
+            notRobDay1[i] = max(notRobDay1[i-1], notRobDay1[i-2] + nums[i]); 
+        }
+        
+        return max(robDay1[nums.size() -2], notRobDay1[nums.size() -1]); // -2 because you're not gonna rob on the last day anyway
     }
 };
+
+
  */
