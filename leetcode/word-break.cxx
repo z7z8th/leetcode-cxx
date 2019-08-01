@@ -43,14 +43,12 @@ public:
 			return dp[si];
 		if (si >= s.size())
 			return true;
-		size_t i=si;
-		char ch = s[i];
+		char ch = s[si];
 		for (auto ts : map_[ch]) {
-			if (s.compare(i, ts.size(), ts) == 0) {
-				int ret = wordBreakEx(s, i+ts.size());
-				//dp[i+ts.size()] = ret;
+			if (s.compare(si, ts.size(), ts) == 0) {
+				int ret = wordBreakEx(s, si+ts.size());
 				if (ret)
-					return dp[i] = ret;
+					return dp[si] = ret;
 			}
 		}
 		return dp[si] = 0;
