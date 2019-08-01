@@ -109,8 +109,8 @@ public:
 	}
 
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-		if (!fastValidate(s, wordDict))
-			return {};
+		//if (!fastValidate(s, wordDict))
+		//	return {};
 		dp.clear();
 		dp.resize(s.size()+1, -1);
 		map_.clear();
@@ -161,7 +161,7 @@ int main() {
 			}
 		}
 	};
-	
+
 	int tcIdx = 0;
 	for (auto tc : tcs) {
 		cout << "case " << tcIdx++ << " : ";
