@@ -53,3 +53,9 @@ public:
 [3,4,-1,1]
 [7,8,9,11,12]
  */
+
+/*
+Possible tune clue:
+1. move value at any index to nums[value-1] if value is positive.
+2. walk through the fixed nums[]
+ */
