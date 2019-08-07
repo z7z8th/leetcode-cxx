@@ -8,21 +8,22 @@
 
 ### Run
 The built executable is outputed to `./objs/`.
-* Run the built executable by `./objs/filename`
-* or Debug with gdb on command line
-* or Debug in Visual Studio Code
+* `Run` the built executable by `./objs/filename`
+* or `Debug` with gdb on command line
+* or `Debug` in Visual Studio Code
 
 ### NOTE
-* VSCode has been configured to support `Build` on both Linux and Windows
-  * Linux: `g++`
-  * Windows: `g++.exe` from `MSYS2(MINGW64)` or `cl.exe` from `Visual Studio`
-    * MSYS2:
+* `Build` or `Debug` in VSCode on Linux
+  * Build: `g++`
+  * Debug: `gdb`
+* `Build` or `Debug` in VSCode on Windows
+  * Build: `g++.exe` from `MSYS2(MINGW64)` or `cl.exe` from `Visual Studio`
+    * Tips for build with `g++.exe` from MSYS2:
         ```shell
         pacman -Syu
         pacman -Sy mingw64/mingw-w64-x86_64-gcc
         pacman -Sy mingw64/mingw-w64-x86_64-gdb
         ```
         Then add `C:\msys64\mingw64\usr\bin\` to System `PATH`
-* VSCode has been configured to support `Debug` on both Linux and Windows
-  * Linux: `gdb`
-  * Windows: `gdb.exe`, `Visual Studio CPP Debug` or `windbg`
+  * Debug: `gdb.exe`, `Visual Studio CPP Debug` or `windbg`
+* **Try solve it by yourself first!**
