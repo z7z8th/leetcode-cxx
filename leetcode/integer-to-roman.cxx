@@ -60,28 +60,25 @@ using namespace std;
 
 class Solution {
 public:
-	Solution() {
-	}
-	inline void singToRoman(int sing, const char ten, const char five, const char one) {
-		tmpStr.resize(4);
-		tmpStr.clear();
+	inline string singToRoman(int sing, const char ten, const char five, const char one) {
+		string ret;
 		if (sing == 9) {
-			tmpStr.push_back(one);
-			tmpStr.push_back(ten);
-			return ;
+			ret.push_back(one);
+			ret.push_back(ten);
+			return ret;
 		}
 		if (sing >= 5) {
-			tmpStr.push_back(five);
+			ret.push_back(five);
 			sing -= 5;
 		}
 		if (sing == 4) {
-			tmpStr.push_back(one);
-			tmpStr.push_back(five);
-			return ;
+			ret.push_back(one);
+			ret.push_back(five);
+			return ret;
 		}
 		for (int i=0; i<sing; i++)
-			tmpStr.push_back(one);
-		//return tmpStr;
+			ret.push_back(one);
+		return ret;
 	}
 	/* 	
 		I             1
@@ -97,15 +94,13 @@ public:
 		for (auto valBase : valBaseMap) {
 			if (num >= valBase[0]) {
 				int part = num/valBase[0];
-				singToRoman(part, valBase[1], valBase[2], valBase[3]);
-				roman.append(std::move(tmpStr));
+				roman.append(std::move(singToRoman(part, valBase[1], valBase[2], valBase[3])));
 				num -= part * valBase[0];
 			}
 		}
 		return roman;
     }
 	const static int valBaseMap[4][4];
-	string tmpStr;
 };
 
 const int Solution::valBaseMap[][4] = {
@@ -117,14 +112,13 @@ const int Solution::valBaseMap[][4] = {
 
 int main() {
 	pair<int, string> tcs[] {
-		{ 1994, "MCMXCIV" },
-		{ 400, "CD" },
-		{ 58, "LVIII" },
 		{ 0, "" },
 		{ 1, "I" },
 		{ 3, "III" },
 		{ 4, "IV" },
 		{ 9, "IX" },
+		{ 58, "LVIII" },
+		{ 1994, "MCMXCIV" },
 	};
 	int tcIdx = 0;
 	for (auto tc : tcs) {
