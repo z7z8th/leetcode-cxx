@@ -60,25 +60,28 @@ using namespace std;
 
 class Solution {
 public:
-	string singToRoman(int sing, const char ten, const char five, const char one) {
-		string ret;
+	Solution() {
+	}
+	inline void singToRoman(int sing, const char ten, const char five, const char one) {
+		tmpStr.resize(4);
+		tmpStr.clear();
 		if (sing == 9) {
-			ret.push_back(one);
-			ret.push_back(ten);
-			return ret;
+			tmpStr.push_back(one);
+			tmpStr.push_back(ten);
+			return ;
 		}
 		if (sing >= 5) {
-			ret = five;
+			tmpStr.push_back(five);
 			sing -= 5;
 		}
 		if (sing == 4) {
-			ret.push_back(one);
-			ret.push_back(five);
-			return ret;
+			tmpStr.push_back(one);
+			tmpStr.push_back(five);
+			return ;
 		}
 		for (int i=0; i<sing; i++)
-			ret.push_back(one);
-		return ret;
+			tmpStr.push_back(one);
+		//return tmpStr;
 	}
 	/* 	
 		I             1
@@ -90,19 +93,21 @@ public:
 		M             1000
 	*/
     string intToRoman(int num) {
-
 		string roman;
 		for (auto valBase : valBaseMap) {
 			if (num >= valBase[0]) {
 				int part = num/valBase[0];
-				roman += singToRoman(part, valBase[1], valBase[2], valBase[3]);
+				singToRoman(part, valBase[1], valBase[2], valBase[3]);
+				roman.append(std::move(tmpStr));
 				num -= part * valBase[0];
 			}
 		}
-		return std::move(roman);
+		return roman;
     }
 	const static int valBaseMap[4][4];
+	string tmpStr;
 };
+
 const int Solution::valBaseMap[][4] = {
 	{1000, '\0', '\0', 'M'},
 	{100, 'M', 'D', 'C'},
@@ -112,13 +117,14 @@ const int Solution::valBaseMap[][4] = {
 
 int main() {
 	pair<int, string> tcs[] {
+		{ 1994, "MCMXCIV" },
+		{ 400, "CD" },
+		{ 58, "LVIII" },
 		{ 0, "" },
 		{ 1, "I" },
 		{ 3, "III" },
 		{ 4, "IV" },
 		{ 9, "IX" },
-		{ 58, "LVIII" },
-		{ 1994, "MCMXCIV" },
 	};
 	int tcIdx = 0;
 	for (auto tc : tcs) {
