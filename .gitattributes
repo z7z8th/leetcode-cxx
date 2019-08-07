@@ -1,7 +1,7 @@
 
 *.cxx	eol=lf
 *.hxx	eol=lf
-*.c	eol=lf
-*.h	eol=lf
+*.c		eol=lf
+*.h		eol=lf
 *.json	eol=lf
 

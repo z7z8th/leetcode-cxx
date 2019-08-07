@@ -15,7 +15,14 @@ The built executable is outputed to `./objs/`.
 ### NOTE
 * VSCode has been configured to support `Build` on both Linux and Windows
   * Linux: `g++`
-  * Windows: need `cl.exe` from Visual Studio or `g++.exe` from `MSYS2/Cygwin`
+  * Windows: `g++.exe` from `MSYS2(MINGW64)` or `cl.exe` from `Visual Studio`
+    * MSYS2:
+        ```shell
+        pacman -Syu
+        pacman -Sy mingw64/mingw-w64-x86_64-gcc
+        pacman -Sy mingw64/mingw-w64-x86_64-gdb
+        ```
+        Then add `C:\msys64\mingw64\usr\bin\` to System `PATH`
 * VSCode has been configured to support `Debug` on both Linux and Windows
   * Linux: `gdb`
-  * Windows: `Visual Studio CPP Debug` or `windbg`
+  * Windows: `gdb.exe`, `Visual Studio CPP Debug` or `windbg`

@@ -70,6 +70,46 @@
                     "message": 4
                 }
             }
-		}
+		},{
+            "type": "shell",
+            "label": "g++.exe build active file",
+            "command": "g++.exe",
+            "args": [
+                "-std=c++17",
+                "-g",
+                "-Wall",
+                "-O2",
+                "${file}",
+                "-o",
+                "${fileDirname}\\..\\objs\\${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": "autoDetect"
+            },
+        },{
+            "type": "shell",
+            "label": "g++.exe build active file [No Optimize]",
+            "command": "g++.exe",
+            "args": [
+                "-std=c++17",
+                "-g",
+                "-Wall",
+                "-O0",
+                "${file}",
+                "-o",
+                "${fileDirname}\\..\\objs\\${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": "autoDetect"
+            },
+        }
     ],
 }

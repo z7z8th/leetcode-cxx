@@ -34,6 +34,26 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false
+		}, {
+			"name": "g++.exe build and debug active file",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${fileDirname}\\..\\objs\\${fileBasenameNoExtension}",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			],
+			"preLaunchTask": "g++.exe build active file [No Optimize]",
+			"miDebuggerPath": "gdb.exe"
 		}
 	]
 }
