@@ -1,18 +1,8 @@
-#*
 *.o
 *.out
 /objs
 /.vscode/ipch
 perf.data*
-!*.cxx
-!*.cc
-!*.C
-!*.cpp
-!*.h
-!*.hpp
-!Makefile
-!.gitignore
-!*.sh
 
 # windows
 *.exe
