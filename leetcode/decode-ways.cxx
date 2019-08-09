@@ -42,17 +42,17 @@ public:
         int val =  (c1-'0')*10 + c2 - '0';
         return val <= 26 && val > 0;
     }
-    uint64_t numDecodings(string s) {
+    int numDecodings(string s) {
         //vector<int> dp(max(s.size(), static_cast<size_t>(2)), 0);
         if (!SCharValid(s[0]) ||
             (s.size() >= 2 && !CombValid(s[0], s[1]) && !SCharValid(s[1]))) {
             return 0;
         }
-        uint64_t dp0 = 1;
-        uint64_t dp1 = 1;
+        int dp0 = 1;
+        int dp1 = 1;
         if (s.size() >= 2 && CombValid(s[0], s[1]) && SCharValid(s[1]))
             dp1 = 2;
-        uint64_t dp2 = dp1;
+        int dp2 = dp1;
         for (size_t i=2; i<s.size(); i++) {
             dp2 = dp1;
             if (!SCharValid(s[i])) {
@@ -89,7 +89,7 @@ public:
  */
 
 int main() {
-	tuple<string, uint64_t> tcs[] {
+	tuple<string, int> tcs[] {
         { "0", 0 },
         { "1", 1 },
         { "01", 0 },
