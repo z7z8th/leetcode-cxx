@@ -62,11 +62,16 @@ public:
     }
 };
 
-void printArray(vector<int>& vec) {
-    for (auto val :  vec) {
-        cout << val << ", ";
-    }
-    cout << endl;
+template<typename Type>
+void printVector(vector<Type> vec) {
+	cout << "[ ";
+	for (size_t i=0; i<vec.size(); i++) {
+		auto& val = vec[i];
+		cout << val;
+		if (i != vec.size()-1)
+			cout << ", ";
+	}
+	cout << " ]" << endl;
 }
 
 int main() {
@@ -82,7 +87,7 @@ int main() {
     for (auto tc : tcs) {
         Solution sln;
         cout << "case " << tcIdx << " :" << endl;
-        printArray(get<0>(tc));
+        printVector(get<0>(tc));
         cout << "max profit : " << get<1>(tc) << endl;
         int ret = sln.maxProfit(get<0>(tc));
         cout << "ret " << ret << endl << endl;

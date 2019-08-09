@@ -131,8 +131,11 @@ public:
 template<typename Type>
 void printVector(vector<Type> vec) {
 	cout << "[ ";
-	for (auto val : vec) {
-		cout << val << ", ";
+	for (size_t i=0; i<vec.size(); i++) {
+		auto& val = vec[i];
+		cout << val;
+		if (i != vec.size()-1)
+			cout << ", ";
 	}
 	cout << " ]" << endl;
 }

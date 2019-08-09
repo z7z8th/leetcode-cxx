@@ -101,7 +101,7 @@ int main() {
         Solution sln;
         cout << "case " << tcIdx++ << " :" << endl;
 		cout << "k " << get<0>(tc) << ", prices len : " << get<1>(tc).size() << endl;
-        //printArray(get<1>(tc));
+        //printVector(get<1>(tc));
         cout << "max profit : " << get<2>(tc) << endl;
         int ret = sln.maxProfit(get<0>(tc), get<1>(tc));
         cout << "ret " << ret << endl << endl;
