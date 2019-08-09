@@ -40,9 +40,8 @@ void printVector(vector<Type> vec) {
 class Solution {
 public:
     int coinChangeEx(vector<int>& coins, int amount) {
-		auto it = map_.find(amount);
-		if (it != map_.end())
-			return it->second;
+		if (dp[amount])
+			return dp[amount];
 		int minCount = INT_MAX;
         for (auto it=coins.rbegin(); it!=coins.rend(); it++) {
 			int cnt = 0;
@@ -58,17 +57,18 @@ public:
 				}
 			}
 		}
-		return map_[amount] = (minCount == INT_MAX ? -1 : minCount);
+		return dp[amount] = (minCount == INT_MAX ? -1 : minCount);
     }
 	int coinChange(vector<int>& coins, int amount) {
 		if (amount == 0)
 			return 0;
-		map_.clear();
+		dp.clear();
+		dp.resize(amount+1, 0);
 		sort(coins.begin(), coins.end());
 		//printVector(coins);
 		return coinChangeEx(coins, amount);
 	}
-	unordered_map<int, int>	map_;
+	vector<int>	dp;
 };
 
 
@@ -80,7 +80,7 @@ int main() {
 		{ {2, 4, 5}, 8, 2},
 		{ {3, 5, 7}, 9, 3},
 		{ {186,419,83,408}, 6249, 20},
-		{ {1, 2, 5}, 2010012301, 3},
+		{ {1, 2, 5}, 10000, 0},
 		//{ {}, , },
 	};
 	int tcIdx = 0;
