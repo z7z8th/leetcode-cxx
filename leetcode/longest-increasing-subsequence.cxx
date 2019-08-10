@@ -36,7 +36,7 @@ void printVector(vector<Type> vec) {
 	cout << " ]" << endl;
 }
 
-class Solution {
+/* class Solution {
 public:
     int lengthOfLISEx(vector<int>& nums, size_t si, int prev) {
 		if (si >= nums.size())
@@ -84,10 +84,33 @@ public:
     }
 	vector<int> dp;
 };
+ */
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+		if (nums.size() == 0)
+			return 0;
+		vector<int> dp;
+		dp.clear();
+		dp.resize(nums.size(), 1);
+		int maxLen = 1;
+		for (size_t i=0; i<nums.size(); i++) {
+			for (size_t k=0; k<i; k++) {
+				if (nums[k] < nums[i]) {
+					dp[i] = max(dp[i], dp[k]+1);
+					maxLen = max(maxLen, dp[i]);
+				}
+			}
+		}
+		return maxLen;
+	}
+};
 
 int main() {
 	pair<vector<int>, int> tcs[] {
+		{{}, 0},
+		{{1}, 1},
 		{{10,9,2,5,3,7,101,18}, 4},
 		{{2,2,2}, 1},
 		{{3,5,6,2,5,4,19,5,6,7,12}, 6},
@@ -109,3 +132,81 @@ int main() {
 		cout << endl;
 	}
 }
+
+
+#if 0
+/*
+10 9 2 5 3 7  101  18
+
+2  3 5 7 9 10  18  101
+    
+option 1: sort array and LCS  -> O(N^2)
+option 2: DP O(N^2)
+
+bi: len of longest increasing subsequence ends at b[i]
+
+b[0] = 1
+b[1] 
+
+b[i] := max (for k < i) {b[k] where a[k] < a[i], 1}
+*/
+
+class Solution {
+public:
+    /* DP
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.empty()) { return 0; }
+        int max_len = 1;
+        vector<int> b(nums.size(), 1);
+        for (int i = 1; i < nums.size(); i++) {
+            for (int k = 0; k < i; k++) {
+                if (nums[k] < nums[i]) {
+                    b[i] = max(b[i], b[k] + 1);
+                    max_len = max(max_len, b[i]);
+                }
+            }
+        }
+        return max_len;
+    }*/
+    
+     // brute force 
+    /*
+    int lengthOfLIS(vector<int>& nums) {
+        return LISHelper(nums, INT_MIN, 0);
+    }
+    
+    int LISHelper(const vector<int>& nums, int prev, int cur_pos) {
+        if (cur_pos == nums.size()) { return 0; }
+        int included = 0;
+        if (nums[cur_pos] > prev) {
+            included = 1 + LISHelper(nums, nums[cur_pos], cur_pos + 1);
+        }
+        int not_included = LISHelper(nums, prev, cur_pos + 1);
+        return max(included, not_included);
+    } */ 
+    
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> lis;
+        for (int num : nums) {
+            int pos = binarySearch(lis, num);
+            if (pos >= lis.size()) { lis.push_back(num); }
+            else {
+                lis[pos] = num;
+            }
+        }
+        return lis.size();
+    } 
+    
+    int binarySearch(const vector<int>& lis, int target) {
+        int l = 0, r = lis.size() - 1;
+        while (l <= r) {
+            int m = (l+r) / 2;
+            if (lis[m] == target) { return m; }
+            else if (lis[m] < target) { l = m + 1; }
+            else { r = m - 1; }
+        }
+        return l;
+    }
+};
+
+#endif
