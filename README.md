@@ -2,9 +2,14 @@
 * Solve leetcode problems in C++.
 * Feature test of C++.
 
-### Compile
+### Build
 * `./compile.sh path/to/filename.cxx`
-* or Open this directory in `Visual Studio Code`, open a cxx file, and press `Ctrl+Shift+B` to build.
+* or  
+	Open this directory in `Visual Studio Code`,  
+	open a cxx file,  
+	and press `Ctrl+Shift+B` to build,  
+	or build by menu `Terminal` -> `Run tasks` -> `Select tasks begin with g++, g++.exe or cl.exe`.  
+	(See [NOTE](#note) for detail) 
 
 ### Run
 The built executable is outputed to `./objs/`.
