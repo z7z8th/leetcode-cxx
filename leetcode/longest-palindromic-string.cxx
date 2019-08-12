@@ -39,10 +39,10 @@ using namespace std;
 template<typename Type>
 void printVector(vector<Type> vec) {
 	cout << "[ ";
-	for (size_t i=0; i<vec.size(); i++) {
-		auto& val = vec[i];
+	for (size_t si=0; si<vec.size(); si++) {
+		auto& val = vec[si];
 		cout << val;
-		if (i != vec.size()-1)
+		if (si != vec.size()-1)
 			cout << ", ";
 	}
 	cout << " ]" << endl;
@@ -50,32 +50,36 @@ void printVector(vector<Type> vec) {
 
 class Solution {
 public:
-	bool checkPalindrome(string& s, int l, int r) {
+/* 	bool checkPalindrome(string& s, int l, int r) {
 		while (l < r) {
 			if (s[l++] != s[r--])
 				return false;
 		}
 		return true;
-	}
+	} */
     string longestPalindrome(string s) {
-        //return "a";
-		// dp[i] means index of left most of palindromic string to i
-/* 		size_t dp_size = max(s.size(), 2UL);
+ 		size_t dp_size = max(s.size(), 2UL);
         vector<vector<int>> dp(dp_size);
 		for (auto& vec : dp) {
-			vec.resize(dp_size, -1);
-		} */
+			vec.resize(dp_size, 0);
+		}
         int maxLen = 1;
 		int maxLenIdxL = 0;
 		//int maxLenIdxR = 0;
-        for (size_t i=0; i<s.size(); i++) {
-            for (int j=i; j<s.size(); j++) {
-				//dp[i][j] = checkPalindrome(s, i, j);
-				//if (dp[i][j] && maxLen < j-i+1) {
-				if (checkPalindrome(s, i, j) && maxLen < j-i+1) {
-					maxLen = j-i+1;
-					maxLenIdxL = i;
-					//maxLenIdxR = j;
+        for (size_t ei=0; ei<s.size(); ei++) {
+            for (int si=ei; si>=0; si--) {
+				if (si==ei) {
+					dp[si][ei] = true;
+					continue;
+				}
+				if (si+1 == ei && s[si] == s[ei]) {
+					dp[si][ei] = true;
+				} else if (ei >= 1 && dp[si+1][ei-1] && s[si] == s[ei])
+					dp[si][ei] = true;
+
+				if (dp[si][ei] && maxLen < ei-si+1) {
+					maxLen = ei-si+1;
+					maxLenIdxL = si;
 				}
 			}
         }
