@@ -50,47 +50,36 @@ void printVector(vector<Type> vec) {
 
 class Solution {
 public:
+	bool checkPalindrome(string& s, int l, int r) {
+		while (l < r) {
+			if (s[l++] != s[r--])
+				return false;
+		}
+		return true;
+	}
     string longestPalindrome(string s) {
         //return "a";
 		// dp[i] means index of left most of palindromic string to i
-        vector<int> dp(max(s.size(), 2UL),-1);
+/* 		size_t dp_size = max(s.size(), 2UL);
+        vector<vector<int>> dp(dp_size);
+		for (auto& vec : dp) {
+			vec.resize(dp_size, -1);
+		} */
         int maxLen = 1;
-        int maxLenEndIdx = 0;
-        int maxLenStartIdx = 0;
-		dp[0] = 0;
-        for (size_t i=1; i<s.size(); i++) {
-            int si = dp[i-1];
-            if (si > 0) {
-                if (s[si-1] == s[i]) {
-                    dp[i] = si-1;
-                    if (maxLen < static_cast<int>(i-si+2)) {
-						maxLen = i-si+2;
-						maxLenEndIdx = i;
-						maxLenStartIdx = dp[i];
-					}
-					continue;
-                }
-            }
-			if (s[i-1] == s[i]) {
-				dp[i] = i-1;
-				/* search for continous same char, e.g. ccccc */
-				int j;
-				for (j=i-1; j>=0; j--) {
-					if (s[j] != s[i-1])
-						break;
+		int maxLenIdxL = 0;
+		//int maxLenIdxR = 0;
+        for (size_t i=0; i<s.size(); i++) {
+            for (int j=i; j<s.size(); j++) {
+				//dp[i][j] = checkPalindrome(s, i, j);
+				//if (dp[i][j] && maxLen < j-i+1) {
+				if (checkPalindrome(s, i, j) && maxLen < j-i+1) {
+					maxLen = j-i+1;
+					maxLenIdxL = i;
+					//maxLenIdxR = j;
 				}
-				dp[i] = min(dp[i], dp[j+1]);
-			} else {
-				dp[i] = i;
-			}
-			if (maxLen < static_cast<int>(i-dp[i]+1)) {
-				maxLen = i-dp[i]+1;
-				maxLenEndIdx = i;
-				maxLenStartIdx = dp[i];
 			}
         }
-		printVector(dp);
-		return s.substr(dp[maxLenEndIdx], maxLen);
+		return s.substr(maxLenIdxL, maxLen);
     }
 };
 
@@ -109,10 +98,11 @@ int main() {
 		{ "ccbccc", "ccbcc"},
 		{ "cccbcc", "ccbcc"},
 		{ "cccbccc", "cccbccc"},
-		{
+		{ "abbaabba", "abbaabba"},
+		/* {
 			"aaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaa",
 			"aaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaa"
-		},
+		}, */
 	};
 
 	for (auto tc : tcs) {
