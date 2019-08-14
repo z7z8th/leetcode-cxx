@@ -83,9 +83,12 @@ public:
 		dp[1] = 1;
         for (int i=1; i<=n; i++) {
 			dp[i] = INT_MAX;
+			int prevSq = 0;
 			for (int s=1; s<=maxSq; s++) {
-				if (s*s > i) break;
-				dp[i] = min(dp[i], dp[i-s*s]+1);
+				int sq = prevSq + 2*s - 1;
+				if (sq > i) break;
+				dp[i] = min(dp[i], dp[i-sq]+1);
+				prevSq = sq;
 			}
 		}
 		return dp[n];
