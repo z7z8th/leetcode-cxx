@@ -77,24 +77,19 @@ public:
 class Solution {
 public:
 	int numSquares(int n) {
-        int maxSq = sqrt(n);
-		vector<int> dp(n+1);
-		dp[0] = 0;
-		dp[1] = 1;
-        for (int i=1; i<=n; i++) {
-			dp[i] = INT_MAX;
-			int prevSq = 0;
-			for (int s=1; s<=maxSq; s++) {
-				int sq = prevSq + 2*s - 1;
-				if (sq > i) break;
-				dp[i] = min(dp[i], dp[i-sq]+1);
-				prevSq = sq;
+		// use static to reuse previous results
+		static vector<int> dp{0};
+        for (int i=dp.size(); i<=n; i++) {
+			int minNSq = INT_MAX;
+			for (int s=1; s<=sqrt(i); s++) {
+				int sq = s*s;
+				minNSq = min(minNSq, dp[i-sq]+1);
 			}
+            dp.push_back(minNSq);
 		}
 		return dp[n];
     };
 };
-
 
 int main() {
 	pair<int, int> tcs[] {
