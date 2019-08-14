@@ -96,7 +96,6 @@ public:
 };
 
 
-
 int main() {
 	pair<int, int> tcs[] {
 		{ 12, 3 },
@@ -122,3 +121,28 @@ int main() {
 		cout << endl;
 	}
 }
+
+/* 
+// 0ms sample solution from leetcode.
+class Solution {
+public:
+    bool dfs(int n, int d)
+    {
+        if(d==0) return !n;
+       // int sqr = sqrt(n);
+        for(int i=sqrt(n);i>=1;i--)
+        {
+            int sq = i * i;
+            if(sq * d < n) break;
+            if(dfs(n-sq,d-1)) return true;
+        }
+        return false;
+    }
+    int numSquares(int n) {
+        for(int d=1; ;d++)
+        {
+            if(dfs(n,d))
+                return d;
+        }
+    }
+}; */
