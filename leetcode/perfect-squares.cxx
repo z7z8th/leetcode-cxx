@@ -24,7 +24,7 @@ Submissions
 #include <bits/stdc++.h>
 
 using namespace std;
-
+/* 
 class Solution {
 public:
     int numSquaresEx(int n, int maxSq) {
@@ -72,6 +72,27 @@ public:
     }
 	vector<int> dp;
 };
+ */
+
+class Solution {
+public:
+	int numSquares(int n) {
+        int maxSq = sqrt(n);
+		vector<int> dp(n+1);
+		dp[0] = 0;
+		dp[1] = 1;
+        for (int i=1; i<=n; i++) {
+			dp[i] = INT_MAX;
+			for (int s=1; s<=maxSq; s++) {
+				if (s*s > i) break;
+				dp[i] = min(dp[i], dp[i-s*s]+1);
+			}
+		}
+		return dp[n];
+    };
+};
+
+
 
 int main() {
 	pair<int, int> tcs[] {
