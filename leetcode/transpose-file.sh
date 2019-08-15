@@ -51,6 +51,9 @@ for ((i=0;i<cols;i++)); do
 done
 
 ### or use cut ### clue from 0ms sample solution from leetcode
+# time 8ms < 79%, mem 3.5MB < 87%.
+cols=$(head -n 1 file.txt | wc -w)
+
 for ((i=1;i<=cols;i++)); do
 	cut -d' ' -f $i file.txt | xargs
 done
