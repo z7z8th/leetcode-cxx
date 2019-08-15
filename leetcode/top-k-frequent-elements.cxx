@@ -42,6 +42,8 @@ void printVector(vector<Type> vec) {
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
+		std::ios::sync_with_stdio(NULL);
+
         map<int, int> freq;
         for (auto n : nums) {
             ++freq[n];
