@@ -49,3 +49,8 @@ for ((i=0;i<cols;i++)); do
 	done
 	echo
 done
+
+### or use cut ### clue from 0ms sample solution from leetcode
+for ((i=1;i<=cols;i++)); do
+	cut -d' ' -f $i file.txt | xargs
+done
