@@ -31,13 +31,13 @@ EOF
 file_txt="name age
 alice 21
 ryan 30"
-file_txt="$(cat file.txt)"
-file=($file_txt)
+echo -e "$file_txt" > file.txt
+file=($(cat file.txt))
 
 #echo ${file[0]}
 
-cols=$(echo -e "$file_txt" | head -n 1 | wc -w)
-rows=$(echo -e "$file_txt" | wc -l)
+cols=$(head -n 1 file.txt | wc -w)
+rows=$((${#file[*]}/cols))
 
 for ((i=0;i<cols;i++)); do
 	for ((j=0;j<rows;j++)); do
