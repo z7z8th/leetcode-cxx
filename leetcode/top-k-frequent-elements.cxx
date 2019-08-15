@@ -44,20 +44,22 @@ public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
 		std::ios::sync_with_stdio(NULL);
 
-        map<int, int> freq;
+        unordered_map<int, int> freq;
         for (auto n : nums) {
             ++freq[n];
         }
 		using CompareFunction = function<bool(const pair<int, int>&, const pair<int, int>&)>;
-        CompareFunction cmpFunc = [](const pair<int, int>& e1, const pair<int, int>& e2) -> bool {
-            return e1.second > e2.second;
+        CompareFunction cmpLesserFunc = [](const pair<int, int>& e1, const pair<int, int>& e2) -> bool {
+            return e1.second < e2.second;
         };
-        multiset<pair<int, int>, CompareFunction> freqSet(freq.begin(), freq.end(), cmpFunc);
+		/* priority queue: use < cmp function, result in large ... small */
+        priority_queue<pair<int, int>, vector<pair<int, int>>, CompareFunction> freqQueue(
+				freq.begin(), freq.end(), cmpLesserFunc
+			);
         vector<int> vec;
-        auto it = freqSet.begin();
-        while(k-- > 0 && it != freqSet.end()) {
-            vec.push_back(it->first);
-            it++;
+        while(k-- > 0 && !freqQueue.empty()) {
+            vec.push_back(freqQueue.top().first);
+            freqQueue.pop();;
         }
         return vec;
     }
