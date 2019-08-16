@@ -34,6 +34,7 @@ using namespace std;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+/* Recursive */
 class Solution {
 public:
     void inorderTraversalEx(TreeNode* root) {
@@ -52,5 +53,40 @@ public:
         return trav; // 0ms
     }
     vector<int> trav;
+};
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+/* Iterative */
+class Solution {
+public:
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> trav;
+        deque<TreeNode *> que;
+        TreeNode *node = root;
+        while (node) {
+            que.push_back(node);
+            node = node->left;
+        }
+        while(!que.empty()) {
+            TreeNode *node = que.back();
+            que.pop_back();
+            trav.push_back(node->val);
+            node = node->right;
+            while (node) {
+                que.push_back(node);
+                node = node->left;
+            }
+        }
+        return trav; // 0ms
+    }
 };
 
