@@ -1,3 +1,5 @@
+# Clang-Format Style Options
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 ---
 BasedOnStyle: LLVM
 UseTab: true
