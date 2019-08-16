@@ -26,20 +26,17 @@ Submissions
 805,398
  */
 
+#include <bits/stdc++.h>
+
+using namespace std;
+
 /* Definition for a binary tree node. */
-
-#define NULL nullptr
-
 struct TreeNode {
 	int val;
 	TreeNode *left;
 	TreeNode *right;
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
-
-#include <bits/stdc++.h>
-using namespace std;
 
 class Solution {
 public:
