@@ -24,7 +24,6 @@ Submissions
 
 using namespace std;
 
-
 /* Definition for a binary tree node. */
 struct TreeNode {
 	int val;
@@ -36,22 +35,22 @@ struct TreeNode {
 /* Recursive */
 class Solution {
 public:
-    void postorderTraversalEx(TreeNode* root) {
-        if (!root)
-            return;
-        if (root->left)
-            postorderTraversalEx(root->left);
-        if (root->right)
-            postorderTraversalEx(root->right);
-        trav.push_back(root->val);
-    }
-    vector<int> postorderTraversal(TreeNode* root) {
-        trav.clear();
-        postorderTraversalEx(root);
-        //return std::move(trav); // 4ms
-        return trav; // 0ms
-    }
-    vector<int> trav;
+	void postorderTraversalEx(TreeNode *root) {
+		if (!root)
+			return;
+		if (root->left)
+			postorderTraversalEx(root->left);
+		if (root->right)
+			postorderTraversalEx(root->right);
+		trav.push_back(root->val);
+	}
+	vector<int> postorderTraversal(TreeNode *root) {
+		trav.clear();
+		postorderTraversalEx(root);
+		//return std::move(trav); // 4ms
+		return trav; // 0ms
+	}
+	vector<int> trav;
 };
 
 /* Iterative 
@@ -60,40 +59,40 @@ public:
 
 class Solution {
 public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> trav;
-        deque<TreeNode *> que;
-		TreeNode* node = root;
-        while (node)  {
-            que.push_back(node);
+	vector<int> postorderTraversal(TreeNode *root) {
+		vector<int> trav;
+		deque<TreeNode *> que;
+		TreeNode *node = root;
+		while (node) {
+			que.push_back(node);
 			//trav.push_back(node->val);
 			node = node->left;
 		}
-        deque<TreeNode *> postQue;
-        while(!que.empty()) {
-            TreeNode *node = que.back();
-            que.pop_back();
-            if (!node) {
-                node = postQue.back();
-                postQue.pop_back();
-                trav.push_back(node->val);
-                continue;
-            }
-            if (!node->right) {
-                trav.push_back(node->val);
-                continue;
-            } else {
-                postQue.push_back(node);
-            }
-            que.push_back(nullptr);
-            
+		deque<TreeNode *> postQue;
+		while (!que.empty()) {
+			TreeNode *node = que.back();
+			que.pop_back();
+			if (!node) {
+				node = postQue.back();
+				postQue.pop_back();
+				trav.push_back(node->val);
+				continue;
+			}
+			if (!node->right) {
+				trav.push_back(node->val);
+				continue;
+			} else {
+				postQue.push_back(node);
+			}
+			que.push_back(nullptr);
+
 			node = node->right;
-            while (node)  {
+			while (node) {
 				que.push_back(node);
 				//trav.push_back(node->val);
 				node = node->left;
 			}
-        }
-        return trav;
-    }
+		}
+		return trav;
+	}
 };
