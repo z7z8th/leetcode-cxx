@@ -54,3 +54,46 @@ public:
     vector<int> trav;
 };
 
+/* Iterative 
+ * 0ms < 100%, 9.1MB < 100%.
+ */
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> trav;
+        deque<TreeNode *> que;
+		TreeNode* node = root;
+        while (node)  {
+            que.push_back(node);
+			//trav.push_back(node->val);
+			node = node->left;
+		}
+        deque<TreeNode *> postQue;
+        while(!que.empty()) {
+            TreeNode *node = que.back();
+            que.pop_back();
+            if (!node) {
+                node = postQue.back();
+                postQue.pop_back();
+                trav.push_back(node->val);
+                continue;
+            }
+            if (!node->right) {
+                trav.push_back(node->val);
+                continue;
+            } else {
+                postQue.push_back(node);
+            }
+            que.push_back(nullptr);
+            
+			node = node->right;
+            while (node)  {
+				que.push_back(node);
+				//trav.push_back(node->val);
+				node = node->left;
+			}
+        }
+        return trav;
+    }
+};
