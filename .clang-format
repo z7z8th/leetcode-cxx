@@ -5,7 +5,10 @@ IndentWidth: 4
 TabWidth: 4
 ---
 Language: Cpp
-BreakBeforeBraces: Attach
+# Always attach braces to surrounding context.
+#BreakBeforeBraces: Attach
+# Like Attach, but break before braces on function, namespace and class definitions.
+BreakBeforeBraces: Linux
 # Force pointers to the type for C++.
 #DerivePointerAlignment: false
 #PointerAlignment: Left

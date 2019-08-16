@@ -33,9 +33,11 @@ struct TreeNode {
 };
 
 /* Recursive */
-class Solution {
+class Solution
+{
 public:
-	void postorderTraversalEx(TreeNode *root) {
+	void postorderTraversalEx(TreeNode *root)
+	{
 		if (!root)
 			return;
 		if (root->left)
@@ -44,7 +46,8 @@ public:
 			postorderTraversalEx(root->right);
 		trav.push_back(root->val);
 	}
-	vector<int> postorderTraversal(TreeNode *root) {
+	vector<int> postorderTraversal(TreeNode *root)
+	{
 		trav.clear();
 		postorderTraversalEx(root);
 		//return std::move(trav); // 4ms
@@ -57,9 +60,11 @@ public:
  * 0ms < 100%, 9.1MB < 100%.
  */
 
-class Solution {
+class Solution
+{
 public:
-	vector<int> postorderTraversal(TreeNode *root) {
+	vector<int> postorderTraversal(TreeNode *root)
+	{
 		vector<int> trav;
 		deque<TreeNode *> que;
 		TreeNode *node = root;
