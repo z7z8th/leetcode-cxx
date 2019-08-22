@@ -75,10 +75,10 @@ public:
         int peakIdx = findPeakFromBack(nums);
         //cout << "peakIdx " << peakIdx << endl;
         if (peakIdx > 0) {
+			/* find the adjacent number larger than nums[peakIdx-1] */
             int swapIdx = binSearchDescUpper(nums, peakIdx, nums.size()-1, nums[peakIdx-1]);
             //cout << "swapIdx " << swapIdx << endl;
-            //if (peakIdx-1 != swapIdx)
-                swap(nums[peakIdx-1], nums[swapIdx]);
+			swap(nums[peakIdx-1], nums[swapIdx]);
             reverseRange(nums, peakIdx, nums.size()-1);
         } else {
             reverseRange(nums, 0, nums.size()-1);
