@@ -2,10 +2,16 @@
 *.out
 /objs
 /.vscode/ipch
+/.vscode/*.redis
 perf.data*
 
 # windows
 *.exe
+*.lib
 *.ilk
 *.obj
 *.pdb
+
+# Backups
+.*~
+*.*~
