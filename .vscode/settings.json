@@ -62,7 +62,8 @@
 		"typeinfo": "cpp",
 		"valarray": "cpp",
 		"charconv": "cpp",
-		"optional": "cpp"
+		"optional": "cpp",
+		"random": "cpp"
 	},
 	"workbench.colorCustomizations": {
 		"tab.unfocusedActiveBorder": "#fff0"
