@@ -14,7 +14,7 @@
                 "-O2",
                 "${file}",
                 "-o",
-                "${fileDirname}/../objs/${fileBasenameNoExtension}"
+                "${workspaceFolder}/objs/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -23,6 +23,10 @@
                 "base": "$gcc",
                 "fileLocation": "autoDetect"
             },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "type": "shell",
@@ -35,7 +39,7 @@
                 "-O0",
                 "${file}",
                 "-o",
-                "${fileDirname}/../objs/${fileBasenameNoExtension}"
+                "${workspaceFolder}/objs/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -58,7 +62,7 @@
                 "/Zi",
                 "/EHsc",
                 "/Fe:",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}\\objs\\${fileBasenameNoExtension}.exe",
                 "${file}"
             ],
             "problemMatcher": {
