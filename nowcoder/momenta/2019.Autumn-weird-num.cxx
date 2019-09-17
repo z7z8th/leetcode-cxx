@@ -30,6 +30,8 @@ inline bool isOdd(unsigned n) {
 inline bool isEven(unsigned n) {
 	return !(n & 0x1);
 }
+
+/* return even 0 or odd 1 as result */
 unsigned weird_num_trick(unsigned n) {
 	unsigned sqrtn = sqrt(n);
 	return sqrtn & 0x1U;
@@ -156,13 +158,35 @@ unsigned weird_num_cnt_sqrt(unsigned a, unsigned b) {
 }
 
 unsigned weird_num_cnt_trick(unsigned a, unsigned b) {
-			unsigned cnt = 0;
+		unsigned cnt = 0;
 		for (unsigned i=a; i<=b; i++) {
 			auto ret = weird_num_trick(i);
-			if (!(ret & 0x1)) {
+			if (isEven(ret)) {
 				++cnt;
 			}
 			//cout << "i " << i << " cnt " << cnt << endl;
+		}
+		//cout << cnt << endl;
+		return cnt;
+}
+
+unsigned weird_num_cnt_trick_v2(unsigned a, unsigned b) {
+		unsigned cnt = 0;
+		unsigned sqrta = sqrt(a);
+		unsigned sqrtb = sqrt(b);
+
+		unsigned prev2 = a;
+		for (unsigned i=sqrta+1; i<=sqrtb; i++) {
+			unsigned w = weird_num_trick(prev2);
+			unsigned i2 = i*i;
+			if (isEven(w)) {
+				cnt += (i2 - prev2);
+			}
+			prev2 = i2;
+		}
+		unsigned w = weird_num_trick(prev2);
+		if (isEven(w)) {
+			cnt += (b-prev2+1);
 		}
 		//cout << cnt << endl;
 		return cnt;
@@ -274,31 +298,25 @@ int main() {
 		{ 0, 10000, 4951 },
 		{ 0, 100000, 49915 },
 		{ 0, 1000000, 499501 },
+		{ 100, 1048576, 523732 },
+		{ 55,  1048600, 523773 },
 		{ 0, 10000000, 4999298 },  // 1000w, trick: 0.08s sqrt: 1m27s, half: 7m25s
-		{ 0, 100000000, 0 }, // 1y, trick: 0.7s
-		{ 0, 1<<31, 0 },     // 20y, overflow, trick: 14s
+		{ 0, 100000000, 49995001 }, // 1y, trick: 0.7s
+		{ 0, 1<<31, 1073762679 },     // 20y, overflow, trick: 14s, trick v2: 0.007s
 	};
 	for (auto &tc : tcs2) {
 		unsigned a = get<0>(tc);
 		unsigned b = get<1>(tc);
 		//auto ans = get<2>(tc);
-		unsigned cnt = 0;
-		for (unsigned i=a; i<=b; i++) {
-			auto ret = weird_num_trick(i);
-			//auto ret = weird_num_ncalc(i);
-			//auto ret = weird_num_sqrt(i);
-			//auto ret = weird_num_half(i);
-			if (!(ret & 0x1)) {
-				++cnt;
-			}
-		}
+		//auto cnt = weird_num_cnt_trick(a, b);
+		auto cnt = weird_num_cnt_trick_v2(a, b);
 		cout << "case " << a << ", " << b << ": cnt " << cnt << endl;
 	}
 #endif
 #else
 	unsigned a, b;
 	while(cin >> a >> b) {
-		auto cnt = weird_num_cnt_trick(a, b);
+		auto cnt = weird_num_cnt_trick_v2(a, b);
 		cout << cnt << endl;
 	}
 #endif
