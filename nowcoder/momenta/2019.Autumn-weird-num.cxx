@@ -30,7 +30,13 @@ inline bool isOdd(unsigned n) {
 inline bool isEven(unsigned n) {
 	return !(n & 0x1);
 }
-
+unsigned weird_num_trick(unsigned n) {
+	unsigned sqrtn = sqrt(n);
+	return sqrtn & 0x1U;
+}
+/* NOTE: this ncalc function isn't faster than weird_num_sqrt
+   hardware multiply is very fast!!!
+*/
 unsigned weird_num_ncalc(unsigned n) {
 	if (n == 0)
 		return 0;
@@ -135,6 +141,34 @@ unsigned weird_num_brute_force(unsigned n) {
 	return sum;
 }
 #endif
+
+unsigned weird_num_cnt_sqrt(unsigned a, unsigned b) {
+			unsigned cnt = 0;
+		for (unsigned i=a; i<=b; i++) {
+			auto ret = weird_num_sqrt(i);
+			if (!(ret & 0x1)) {
+				++cnt;
+			}
+			//cout << "i " << i << " cnt " << cnt << endl;
+		}
+		//cout << cnt << endl;
+		return cnt;
+}
+
+unsigned weird_num_cnt_trick(unsigned a, unsigned b) {
+			unsigned cnt = 0;
+		for (unsigned i=a; i<=b; i++) {
+			auto ret = weird_num_trick(i);
+			if (!(ret & 0x1)) {
+				++cnt;
+			}
+			//cout << "i " << i << " cnt " << cnt << endl;
+		}
+		//cout << cnt << endl;
+		return cnt;
+}
+
+
 int main() {
 #if MY_DRAFT
 #if SINGLE_N_TEST
@@ -240,9 +274,9 @@ int main() {
 		{ 0, 10000, 4951 },
 		{ 0, 100000, 49915 },
 		{ 0, 1000000, 499501 },
-		{ 0, 10000000, 4999298 },  // 1000w, sqrt: 1m27s, half 7m25s
-		//{ 0, 100000000, 0 }, // 1y
-		//{ 0, 1<<31, 0 },     // 20y, overflow
+		{ 0, 10000000, 4999298 },  // 1000w, trick: 0.08s sqrt: 1m27s, half: 7m25s
+		{ 0, 100000000, 0 }, // 1y, trick: 0.7s
+		{ 0, 1<<31, 0 },     // 20y, overflow, trick: 14s
 	};
 	for (auto &tc : tcs2) {
 		unsigned a = get<0>(tc);
@@ -250,7 +284,8 @@ int main() {
 		//auto ans = get<2>(tc);
 		unsigned cnt = 0;
 		for (unsigned i=a; i<=b; i++) {
-			auto ret = weird_num_ncalc(i);
+			auto ret = weird_num_trick(i);
+			//auto ret = weird_num_ncalc(i);
 			//auto ret = weird_num_sqrt(i);
 			//auto ret = weird_num_half(i);
 			if (!(ret & 0x1)) {
@@ -263,15 +298,7 @@ int main() {
 #else
 	unsigned a, b;
 	while(cin >> a >> b) {
-		unsigned cnt = 0;
-		for (unsigned i=a; i<=b; i++) {
-			//auto ret = weird_num_sqrt(i);
-			auto ret = weird_num_ncalc(i);
-			if (!(ret & 0x1)) {
-				++cnt;
-			}
-			cout << "i " << i << " cnt " << cnt << endl;
-		}
+		auto cnt = weird_num_cnt_trick(a, b);
 		cout << cnt << endl;
 	}
 #endif
