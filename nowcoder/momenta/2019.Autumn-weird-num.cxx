@@ -6,6 +6,7 @@ using namespace std;
 
 #define MY_DRAFT 0
 #define SINGLE_N_TEST 0
+#define EVEN_ONLY_TEST 0
 #define PRINT_RESULT 0
 
 #if MY_DRAFT
@@ -21,6 +22,48 @@ double weird_num_float(unsigned n) {
 	return ret;
 }
 #endif
+
+inline bool isOdd(unsigned n) {
+	return (n & 0x1);
+}
+
+inline bool isEven(unsigned n) {
+	return !(n & 0x1);
+}
+
+unsigned weird_num_ncalc(unsigned n) {
+	if (n == 0)
+		return 0;
+	unsigned sum = 0;
+	unsigned sqrtn = sqrt(n);
+
+	unsigned prev_x = n;
+	//sum += n;
+	
+	for (unsigned i=1; i<=sqrtn; i++) {
+		unsigned x = n/i;
+		cout << (isOdd(x) ? 1 : 0) << " ";
+		if (isOdd(x))
+			sum += 1;
+		if (isOdd(i - 1) && isOdd(prev_x - x)) {
+			sum += 1;
+		}
+		prev_x = x;
+	}
+	cout << "sqrtn " << (isOdd(sqrtn) ? 1 : 0) << " ";
+	unsigned sqrt_remain = n / sqrtn;
+	for (unsigned i = sqrtn+1; i<=sqrt_remain; i++) {
+		unsigned x = n/i;
+		if (isOdd(x))
+			sum += 1;
+	}
+	//cout << endl;
+#if PRINT_RESULT
+	cout << "sqrt_remain - sqrtn = " << sqrt_remain - sqrtn << endl;
+	cout << "sum sqrt " << sum << endl;
+#endif
+	return sum;
+}
 
 unsigned weird_num_sqrt(unsigned n) {
 	if (n == 0)
@@ -129,7 +172,55 @@ int main() {
 		cout << "return " << (ret_half != ret_sqrt ? "** WRONG **" : "OK") << endl << endl;
 	}
 	return 0;
-#endif
+#elif EVEN_ONLY_TEST
+	unsigned n;
+	//cin >> n;
+	tuple<unsigned, unsigned> tcs[] {
+		{ 0, 0},
+		{ 1, 1},
+		{ 2, 3},
+		{ 3, 5},
+		{ 4, 8},
+		{ 5, 10},
+		{ 6, 14},
+		{ 7, 16},
+		{ 8, 20},
+		{ 9, 23},
+		{ 10, 27},
+		{ 11, 29},
+		{ 12, 35},
+		{ 100, 482},
+		{ 1000, 7069},
+		{ 10000, 93668},
+		{ 100000, 1166750},
+		{ 1000000, 13970034},
+		{ 1<<31, 3526155458},  // overflow
+	};
+	for (auto &tc : tcs) {
+		n = get<0>(tc);
+		cout << "case " << n << " : " << endl;
+		//auto ans = get<1>(tc);
+		auto ret_sqrt = weird_num_sqrt(n);
+		auto ret_ncalc = weird_num_ncalc(n);
+		cout << "return " << (isEven(ret_ncalc) != isEven(ret_sqrt) ? "** WRONG **" : "OK") << endl << endl;
+	}
+	cout << "scan test:" << endl;
+	unsigned prev_i = 0;
+	for (unsigned i=10000; i < 1U<<31; i++) {
+		n = i;
+		if ((n>>20) != prev_i) {
+			cout << "case " << n << " : " << endl;
+			prev_i = n>>20;
+		}
+		//auto ans = get<1>(tc);
+		auto ret_sqrt = weird_num_sqrt(n);
+		auto ret_ncalc = weird_num_ncalc(n);
+		if (isEven(ret_ncalc) != isEven(ret_sqrt)) {
+			cout << "ncalc for " << i << "** WRONG **" << endl;
+		}
+	}
+	return 0;
+#else
 	tuple<unsigned, unsigned, unsigned> tcs2[] {
 		{ 0, 0, 1 },
 		{ 0, 1, 1 },
@@ -159,7 +250,8 @@ int main() {
 		//auto ans = get<2>(tc);
 		unsigned cnt = 0;
 		for (unsigned i=a; i<=b; i++) {
-			auto ret = weird_num_sqrt(i);
+			auto ret = weird_num_ncalc(i);
+			//auto ret = weird_num_sqrt(i);
 			//auto ret = weird_num_half(i);
 			if (!(ret & 0x1)) {
 				++cnt;
@@ -167,15 +259,18 @@ int main() {
 		}
 		cout << "case " << a << ", " << b << ": cnt " << cnt << endl;
 	}
+#endif
 #else
 	unsigned a, b;
 	while(cin >> a >> b) {
 		unsigned cnt = 0;
 		for (unsigned i=a; i<=b; i++) {
-			auto ret = weird_num_sqrt(i);
+			//auto ret = weird_num_sqrt(i);
+			auto ret = weird_num_ncalc(i);
 			if (!(ret & 0x1)) {
 				++cnt;
 			}
+			cout << "i " << i << " cnt " << cnt << endl;
 		}
 		cout << cnt << endl;
 	}
