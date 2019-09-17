@@ -276,3 +276,112 @@ int main() {
 	}
 #endif
 }
+
+#if 0
+!! repeat pattern !!
+
+~/src/cxx ⑂master* $ ./objs/2019.Autumn-weird-num 
+1 100
+1 sqrtn 1 i 1 cnt 0
+0 sqrtn 1 i 2 cnt 0
+1 sqrtn 1 i 3 cnt 0
+0 0 sqrtn 0 i 4 cnt 1
+1 0 sqrtn 0 i 5 cnt 2
+0 1 sqrtn 0 i 6 cnt 3
+1 1 sqrtn 0 i 7 cnt 4
+0 0 sqrtn 0 i 8 cnt 5
+1 0 1 sqrtn 1 i 9 cnt 5
+0 1 1 sqrtn 1 i 10 cnt 5
+1 1 1 sqrtn 1 i 11 cnt 5
+0 0 0 sqrtn 1 i 12 cnt 5
+1 0 0 sqrtn 1 i 13 cnt 5
+0 1 0 sqrtn 1 i 14 cnt 5
+1 1 1 sqrtn 1 i 15 cnt 5
+0 0 1 0 sqrtn 0 i 16 cnt 6
+1 0 1 0 sqrtn 0 i 17 cnt 7
+0 1 0 0 sqrtn 0 i 18 cnt 8
+1 1 0 0 sqrtn 0 i 19 cnt 9
+0 0 0 1 sqrtn 0 i 20 cnt 10
+1 0 1 1 sqrtn 0 i 21 cnt 11
+0 1 1 1 sqrtn 0 i 22 cnt 12
+1 1 1 1 sqrtn 0 i 23 cnt 13
+0 0 0 0 sqrtn 0 i 24 cnt 14
+1 0 0 0 1 sqrtn 1 i 25 cnt 14
+0 1 0 0 1 sqrtn 1 i 26 cnt 14
+1 1 1 0 1 sqrtn 1 i 27 cnt 14
+0 0 1 1 1 sqrtn 1 i 28 cnt 14
+1 0 1 1 1 sqrtn 1 i 29 cnt 14
+0 1 0 1 0 sqrtn 1 i 30 cnt 14
+1 1 0 1 0 sqrtn 1 i 31 cnt 14
+0 0 0 0 0 sqrtn 1 i 32 cnt 14
+1 0 1 0 0 sqrtn 1 i 33 cnt 14
+0 1 1 0 0 sqrtn 1 i 34 cnt 14
+1 1 1 0 1 sqrtn 1 i 35 cnt 14
+0 0 0 1 1 0 sqrtn 0 i 36 cnt 15
+1 0 0 1 1 0 sqrtn 0 i 37 cnt 16
+0 1 0 1 1 0 sqrtn 0 i 38 cnt 17
+1 1 1 1 1 0 sqrtn 0 i 39 cnt 18
+0 0 1 0 0 0 sqrtn 0 i 40 cnt 19
+1 0 1 0 0 0 sqrtn 0 i 41 cnt 20
+0 1 0 0 0 1 sqrtn 0 i 42 cnt 21
+1 1 0 0 0 1 sqrtn 0 i 43 cnt 22
+0 0 0 1 0 1 sqrtn 0 i 44 cnt 23
+1 0 1 1 1 1 sqrtn 0 i 45 cnt 24
+0 1 1 1 1 1 sqrtn 0 i 46 cnt 25
+1 1 1 1 1 1 sqrtn 0 i 47 cnt 26
+0 0 0 0 1 0 sqrtn 0 i 48 cnt 27
+1 0 0 0 1 0 1 sqrtn 1 i 49 cnt 27
+0 1 0 0 0 0 1 sqrtn 1 i 50 cnt 27
+1 1 1 0 0 0 1 sqrtn 1 i 51 cnt 27
+0 0 1 1 0 0 1 sqrtn 1 i 52 cnt 27
+1 0 1 1 0 0 1 sqrtn 1 i 53 cnt 27
+0 1 0 1 0 1 1 sqrtn 1 i 54 cnt 27
+1 1 0 1 1 1 1 sqrtn 1 i 55 cnt 27
+0 0 0 0 1 1 0 sqrtn 1 i 56 cnt 27
+1 0 1 0 1 1 0 sqrtn 1 i 57 cnt 27
+0 1 1 0 1 1 0 sqrtn 1 i 58 cnt 27
+1 1 1 0 1 1 0 sqrtn 1 i 59 cnt 27
+0 0 0 1 0 0 0 sqrtn 1 i 60 cnt 27
+1 0 0 1 0 0 0 sqrtn 1 i 61 cnt 27
+0 1 0 1 0 0 0 sqrtn 1 i 62 cnt 27
+1 1 1 1 0 0 1 sqrtn 1 i 63 cnt 27
+0 0 1 0 0 0 1 0 sqrtn 0 i 64 cnt 28
+1 0 1 0 1 0 1 0 sqrtn 0 i 65 cnt 29
+0 1 0 0 1 1 1 0 sqrtn 0 i 66 cnt 30
+1 1 0 0 1 1 1 0 sqrtn 0 i 67 cnt 31
+0 0 0 1 1 1 1 0 sqrtn 0 i 68 cnt 32
+1 0 1 1 1 1 1 0 sqrtn 0 i 69 cnt 33
+0 1 1 1 0 1 0 0 sqrtn 0 i 70 cnt 34
+1 1 1 1 0 1 0 0 sqrtn 0 i 71 cnt 35
+0 0 0 0 0 0 0 1 sqrtn 0 i 72 cnt 36
+1 0 0 0 0 0 0 1 sqrtn 0 i 73 cnt 37
+0 1 0 0 0 0 0 1 sqrtn 0 i 74 cnt 38
+1 1 1 0 1 0 0 1 sqrtn 0 i 75 cnt 39
+0 0 1 1 1 0 0 1 sqrtn 0 i 76 cnt 40
+1 0 1 1 1 0 1 1 sqrtn 0 i 77 cnt 41
+0 1 0 1 1 1 1 1 sqrtn 0 i 78 cnt 42
+1 1 0 1 1 1 1 1 sqrtn 0 i 79 cnt 43
+0 0 0 0 0 1 1 0 sqrtn 0 i 80 cnt 44
+1 0 1 0 0 1 1 0 1 sqrtn 1 i 81 cnt 44
+0 1 1 0 0 1 1 0 1 sqrtn 1 i 82 cnt 44
+1 1 1 0 0 1 1 0 1 sqrtn 1 i 83 cnt 44
+0 0 0 1 0 0 0 0 1 sqrtn 1 i 84 cnt 44
+1 0 0 1 1 0 0 0 1 sqrtn 1 i 85 cnt 44
+0 1 0 1 1 0 0 0 1 sqrtn 1 i 86 cnt 44
+1 1 1 1 1 0 0 0 1 sqrtn 1 i 87 cnt 44
+0 0 1 0 1 0 0 1 1 sqrtn 1 i 88 cnt 44
+1 0 1 0 1 0 0 1 1 sqrtn 1 i 89 cnt 44
+0 1 0 0 0 1 0 1 0 sqrtn 1 i 90 cnt 44
+1 1 0 0 0 1 1 1 0 sqrtn 1 i 91 cnt 44
+0 0 0 1 0 1 1 1 0 sqrtn 1 i 92 cnt 44
+1 0 1 1 0 1 1 1 0 sqrtn 1 i 93 cnt 44
+0 1 1 1 0 1 1 1 0 sqrtn 1 i 94 cnt 44
+1 1 1 1 1 1 1 1 0 sqrtn 1 i 95 cnt 44
+0 0 0 0 1 0 1 0 0 sqrtn 1 i 96 cnt 44
+1 0 0 0 1 0 1 0 0 sqrtn 1 i 97 cnt 44
+0 1 0 0 1 0 0 0 0 sqrtn 1 i 98 cnt 44
+1 1 1 0 1 0 0 0 1 sqrtn 1 i 99 cnt 44
+0 0 1 1 0 0 0 0 1 0 sqrtn 0 i 100 cnt 45
+45
+
+#endif
