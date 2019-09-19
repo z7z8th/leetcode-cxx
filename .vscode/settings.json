@@ -63,7 +63,15 @@
 		"valarray": "cpp",
 		"charconv": "cpp",
 		"optional": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"regex": "cpp",
+		"algorithm": "cpp",
+		"filesystem": "cpp",
+		"iterator": "cpp",
+		"map": "cpp",
+		"memory_resource": "cpp",
+		"set": "cpp",
+		"string": "cpp"
 	},
 	"workbench.colorCustomizations": {
 		"tab.unfocusedActiveBorder": "#fff0"

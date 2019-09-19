@@ -404,6 +404,25 @@ int main() {
 			"99999999999999999999999999999999999999999999999999999999999999999",
 			"1",
 			""
+			#if 0 // debug info
+f31627 1c7fc390 8a8bef46 4e3945ef 7a253607 ffffffff ffffffff  #wrong
+f31627 1c7fc390 8a8bef46 4e3945ef 7a253609 ffffffff ffffffff  #correct
+
+9999999999999999999999999999999999999999999999999999999999999999 = 
+184f03 e93ff9f 4daa797ed 6e38ed64 bf6a1f00 ffffffff ffffffff
+0b1010
+bit 3: 1
+184f03 e93ff9f 4daa797ed 6e38ed64 bf6a1f00 ffffffff ffffffff
+bit 2: 0
+<< 1
+  309e07 309e07 b54f2fda dc71dac9 7ed43e01 ffffffff fffffffe
+bit 1: 1
+<< 1
+613c0f a4ffe7d3 6a9e5fb5 b8e3b592 fda87c03 ffffffff fffffffc
++ 
+184f03 e93ff9f 4daa797ed 6e38ed64 bf6a1f00 ffffffff ffffffff
+                                         4 ffffffff fffffffb
+			#endif
 		},
 		{
 			// parse ok, char[65], 9 x64
