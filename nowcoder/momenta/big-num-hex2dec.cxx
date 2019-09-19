@@ -17,9 +17,9 @@ void printVector(/* deque<unsigned> */ T &vec, bool fmthex = false) {
 	cout << endl;
 }
 
-vector<unsigned short> bin2dec(vector<unsigned short> binary)
+vector<unsigned char> bin2dec(vector<unsigned short> binary)
 {
-    vector<unsigned short> decimal;
+    vector<unsigned char> decimal;
     bool all_zero = false;
 
     // binary[i]: stores 8-bit of the nubmer.
