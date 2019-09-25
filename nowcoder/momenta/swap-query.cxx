@@ -188,23 +188,35 @@ int main() {
 	int m;
 	int k;
 	while (cin >> n >> m >> k) {
-		cout << "n " << n << " m " << m << " k " << k << endl;
+		//cout << "n " << n << " m " << m << " k " << k << endl;
 		LIL lil;
 		for (int ki=0; ki<k; ki++) {
 			int x;
 			int y;
 			int c;
 			cin >> x >> y >> c;
+			if (x < 0 || x >= n) {
+				cout << "x " << x << " out of range " << endl;
+			}
+			if (y < 0 || y >= m) {
+				cout << "y " << y << " out of range " << endl;
+			}
 			lil.insert(x, y, c);
 		}
 		int t;
 		cin >> t;
-		cout << "t " << t << endl;
+		//cout << "t " << t << endl;
 		for (int ti=0; ti<t; ti++) {
 			int q;
 			int a;
 			int b;
 			cin >> q >> a >> b;
+			if (a < 0 || a >= n) {
+				cout << "a " << a << " out of range " << endl;
+			}
+			if (b < 0 || b >= m) {
+				cout << "b " << b << " out of range " << endl;
+			}
 			switch (q) {
 			case 0:
 				lil.swapRow(a, b);
