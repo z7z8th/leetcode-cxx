@@ -52,29 +52,28 @@ public:
     ListNode *detectCycle(ListNode *head) {
 		if (!head)
 			return nullptr;
-        ListNode *p1 = head;
-		ListNode *p2 = head->next;
-		while (p1 && p2 && p1 != p2) {
-			p1 = p1->next;
+        ListNode *p1 = head; // slow
+		ListNode *p2 = head; // fast
+		do {
+            p1 = p1->next;
 			if (p2->next)
 				p2 = p2->next->next;
             else
                 p2 = nullptr;
-		}
-        if(!p1 || !p2)
+		} while (p2 && p1 != p2);
+
+        if(!p2)
             return nullptr;
 
-        ListNode *cycMid = p1;
-        int cycLen = 0;
-        do {    
-            p1 = p1->next;
-            cycLen++;
-        } while(p1 != cycMid);
-        /* walk past head by cycLen, left len = list len - cycLen */
-        p1 = head;
-        while(cycLen--) {
-            p1 = p1->next;
-        }
+        /* fast_walk_len - slow_walk_len = circle_len;
+           fast_walk_len = 2 * slow_walk_len;
+           slow_walk_len = circle_len;
+           
+           straight_len = total_len - circle_len;
+           slow_to_junction = total_len - slow_walk_len;
+           straight_len = slow_to_junction;
+        */
+
         p2 = head;
         while(p1 != p2) {
             p1 = p1->next;
@@ -173,6 +172,7 @@ int main() {
         { "[1,2,3,4,5]", "0"},
         { "[1,2]", "-1"},
         { "[2]", "0"},
+        { "[3,2,0,-4]", "1"},
     };
     //while (getline(cin, line)) {
     for (auto tc : tcs) {
