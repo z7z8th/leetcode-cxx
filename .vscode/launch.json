@@ -5,6 +5,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "debug python",
+			"type": "python",
+			"program": "${file}",
+			"request": "launch",
+			"args": [ ]
+		},
+		{
 			"name": "g++ build and debug active file",
 			"type": "cppdbg",
 			"request": "launch",
