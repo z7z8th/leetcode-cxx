@@ -41,6 +41,7 @@ using namespace std;
 
 class SolutionDP2
 {
+#warning int overflow, should use int64
 public:
 	int sumOfContSubArrayCount(vector<int> &vec, int x)
 	{
@@ -66,14 +67,14 @@ public:
 class SolutionTune2
 {
 public:
-	int sumOfContSubArrayCount(vector<int> &vec, int xorig)
+	unsigned long long sumOfContSubArrayCount(vector<int> &vec, int xorig)
 	{
 		int x = xorig;
 		if (x == 0) {
 			x = 1; 
 		}
-		int prevCnt = 0;
-		int cnt = 0;
+		unsigned long long prevCnt = 0;
+		unsigned long long cnt = 0;
 		size_t prevJ = 0;
 		int prevSum = 0;
 		for (size_t i=0; i<vec.size(); i++) {
@@ -86,6 +87,10 @@ public:
 			cnt = prevJ;
 			if (prevSum >= x)
 				++cnt;
+			/* unsigned tmp;
+			if (__builtin_uadd_overflow(cnt, prevCnt, &tmp))
+				cout << "overflow "<< cnt << " + " << prevCnt << endl;
+			 */
 			cnt += prevCnt;
 			prevCnt = cnt;
 		}
