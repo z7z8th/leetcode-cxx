@@ -59,8 +59,7 @@
 -1 -1  2
 第四次查询（1，1）得到-1；
 第五次查询（2，2）得到2；
-
- */
+*/
 
 #include <bits/stdc++.h>
 
@@ -72,12 +71,38 @@ void swap(int &a, int &b) {
 	b = c;
 }
 
-void ensureOrder(int &a, int &b) {
-	if (a > b)
-		swap(a, b);
-}
+class SparseMatrix_Tune_for_Swap_Row_Col
+{
+public:
+	SparseMatrix_Tune_for_Swap_Row_Col(int rows, int cols) {
+		for (int i=0; i<rows; i++) {
+			rowMap.push_back(i);
+		}
+		for (int j=0; j<cols; j++) {
+			colMap.push_back(j);
+		}
+	}
+	void insert(int i, int j, int val) {
+		m[make_pair(i, j)] = val;
+	}
+	void swapRow(int ia, int ib) {
+		swap(rowMap[ia], rowMap[ib]);
+	}
+	void swapColum(int ja, int jb) {
+		swap(colMap[ja], colMap[jb]);
+	}
+
+	int query(int i, int j) {
+		auto it = m.find(make_pair(rowMap[i], colMap[j]));
+		return (it != m.end()) ? it->second : -1;
+	}
+	map<pair<int, int>, int> m;
+	vector<int> rowMap;
+	vector<int> colMap;
+};
 
 
+#warning SparseMatrix_LM is tested, too much search when swap colums.
 class SparseMatrix_LM
 {
 public:
@@ -117,8 +142,12 @@ public:
 	vector<map<int, int>> m;  // 1m42s for n = m = k = t = 10^5
 };
 
-#if 0
-#warning SparseMatrix_LIL is tested, but two slow when swap colums, since too much binary search slows it down.
+#warning SparseMatrix_LIL is tested, but two slow when swap colums, since too much binary search.
+
+void ensureOrder(int &a, int &b) {
+	if (a > b)
+		swap(a, b);
+}
 
 struct lil_elem {
 	int col;
@@ -189,9 +218,10 @@ public:
 		return val;
 	}
 
-	vector<vector<lil_elem>> m;
+	vector<vector<lil_elem>> m;  // 1m12s for n = m = k = t = 10^5
 };
 
+#if 0
 #warning SparseMatrix_CSR is not tested
 /* Compressed Sparse Row, Yale format */
 class SparseMatrix_CSR
@@ -217,24 +247,26 @@ public:
 };
 #endif
 
+
 int main() {
 	int n;
 	int m;
 	int k;
 	while (cin >> n >> m >> k) {
 		//cout << "n " << n << " m " << m << " k " << k << endl;
-		SparseMatrix_LM mtrx;
+		//SparseMatrix_LM mtrx;
+		SparseMatrix_Tune_for_Swap_Row_Col mtrx(n, m);
 		for (int ki=0; ki<k; ki++) {
 			int x;
 			int y;
 			int c;
 			cin >> x >> y >> c;
-			if (x < 0 || x >= n) {
-				// cout << "x " << x << " out of range " << endl;
+			/* if (x < 0 || x >= n) {
+				cout << "x " << x << " out of range " << endl;
 			}
 			if (y < 0 || y >= m) {
-				// cout << "y " << y << " out of range " << endl;
-			}
+				cout << "y " << y << " out of range " << endl;
+			} */
 			mtrx.insert(x, y, c);
 		}
 		//return 0;
@@ -246,21 +278,21 @@ int main() {
 			int a;
 			int b;
 			cin >> q >> a >> b;
-			if (a < 0 || a >= n) {
-				// cout << "a " << a << " out of range " << endl;
+			/* if (a < 0 || a >= n) {
+				cout << "a " << a << " out of range " << endl;
 			}
 			if (b < 0 || b >= m) {
-				// cout << "b " << b << " out of range " << endl;
-			}
+				cout << "b " << b << " out of range " << endl;
+			} */
 			switch (q) {
 			case 0:
 				mtrx.swapRow(a, b);
 				break;
 			case 1:
-				//mtrx.swapColum(a, b);
+				mtrx.swapColum(a, b);
 				break;
 			case 2:
-				//cout << mtrx.query(a, b) << endl;
+				cout << mtrx.query(a, b) << endl;
 				break;
 			default:
 				cout << "unknown query" << endl;
@@ -269,8 +301,9 @@ int main() {
 	};
 }
 
-
 #if 0
+use `swap-query-gen-case.py 100000 100000 100000 100000` to generate the largest case.
+
 Fail at case 10%: 
 ### orignal nowcoder case
 sed -r -e 's/([0-9]+\s+){3}/&\n/g' sq-t1.txt | sed -r -e 's/\s+$//g'  | ./swap-query | wc -l
