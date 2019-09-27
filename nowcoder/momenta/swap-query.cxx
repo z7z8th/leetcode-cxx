@@ -77,6 +77,49 @@ void ensureOrder(int &a, int &b) {
 		swap(a, b);
 }
 
+
+class SparseMatrix_LM
+{
+public:
+	void insert(int i, int j, int val) {
+		if (i >= static_cast<int>(m.size()))
+			m.resize(i+1);
+		m[i][j] = val;
+	}
+	void swapRow(int ia, int ib) {
+		m[ia].swap(m[ib]);
+	}
+	void swapColum(int ja, int jb) {
+		//ensureOrder(ja, jb);
+		for (auto &row : m) {
+			auto ita = row.find(ja);
+			auto itb = row.find(jb);
+			if (ita != row.end() && itb != row.end()) {
+				swap(ita->second, itb->second);
+			} else if (ita != row.end()) {
+				row[jb] = ita->second;
+				row.erase(ita);
+			} else if (itb != row.end()) {
+				row[ja] = itb->second;
+				row.erase(itb);
+			}
+		}
+	}
+
+	int query(int i, int j) {
+		auto &row = m[i];
+		auto it = row.find(j);
+		int val = (it != row.end()) ? it->second : -1;
+		return val;
+	}
+
+	// vector<unordered_map<int, int>> m; // 3m29s for n = m = k = t = 10^5
+	vector<map<int, int>> m;  // 1m42s for n = m = k = t = 10^5
+};
+
+#if 0
+#warning SparseMatrix_LIL is tested, but two slow when swap colums, since too much binary search slows it down.
+
 struct lil_elem {
 	int col;
 	int val;
@@ -85,7 +128,7 @@ struct lil_elem {
 	}
 };
 
-class LIL
+class SparseMatrix_LIL
 {
 public:
 	void insert(int i, int j, int val) {
@@ -97,17 +140,9 @@ public:
 				return a.col < b.col;
 		};
 		auto itj = lower_bound(row.begin(), row.end(), ne, comp);
-		/* if (row.size() == 0 || itj == row.end()) {
-			cout << "append to end"<< endl;
-			row.emplace_back(ne);
-			return;
-		} */
 		//cout << "insert [ " << i << ", " << j << " ] = " << val
 		//	 << ", itj " << &*itj << " end " << &*row.end() << endl;
 		row.insert(itj, ne);
-	}
-	const vector<vector<lil_elem>>& getLIL() {
-		return m;
 	}
 	void swapRow(int ia, int ib) {
 		m[ia].swap(m[ib]);
@@ -115,10 +150,12 @@ public:
 	void swapColumInRow(vector<lil_elem> &row, int ja, int jb) {
 		auto ita = lower_bound(row.begin(), row.end(), lil_elem{ja, 0});
 		auto itb = lower_bound(ita, row.end(), lil_elem{jb, 0});
+		auto afound = ita != row.end() && ita->col == ja;
+		auto bfound = itb != row.end() && itb->col == jb;
 
-		if (ita != row.end() && itb != row.end() && ita->col == ja && itb->col == jb) {
+		if (afound && bfound) {
 			swap(ita->val, itb->val);
-		} else if (ita != row.end() && itb != row.end() && ita->col != ja && itb->col == jb) {
+		} else if (!afound && bfound) {
 			itb->col = ja;
 			auto tmp = *itb;
 			while (itb > ita) {
@@ -126,12 +163,10 @@ public:
 				--itb;
 			}
 			*ita = tmp;
-		} else if (ita != row.end() && ita->col == ja && (itb ==  row.end() || itb->col != jb)) {
+		} else if (afound && !bfound) {
 			ita->col = jb;
 			auto tmp = *ita;
-			while (ita < itb) {
-				if (ita+1 == row.end())
-					break;
+			while (ita + 1 < itb) {
 				*ita = *(ita+1);
 				++ita;
 			}
@@ -157,16 +192,15 @@ public:
 	vector<vector<lil_elem>> m;
 };
 
-#if 0
-#warning CSR is not tested
+#warning SparseMatrix_CSR is not tested
 /* Compressed Sparse Row, Yale format */
-class CSR
+class SparseMatrix_CSR
 {
 public:
-	CSR(LIL &lil)
+	SparseMatrix_CSR(SparseMatrix_LIL &m)
 	{
 		int prevRowIdx = 0;
-		for (auto &row : lil.getLIL()) {
+		for (auto &row : m.getLIL()) {
 			IA.emplace_back(prevRowIdx);
 			for (auto &elem : row) {
 				A.emplace_back(elem.val);
@@ -189,20 +223,21 @@ int main() {
 	int k;
 	while (cin >> n >> m >> k) {
 		//cout << "n " << n << " m " << m << " k " << k << endl;
-		LIL lil;
+		SparseMatrix_LM mtrx;
 		for (int ki=0; ki<k; ki++) {
 			int x;
 			int y;
 			int c;
 			cin >> x >> y >> c;
 			if (x < 0 || x >= n) {
-				cout << "x " << x << " out of range " << endl;
+				// cout << "x " << x << " out of range " << endl;
 			}
 			if (y < 0 || y >= m) {
-				cout << "y " << y << " out of range " << endl;
+				// cout << "y " << y << " out of range " << endl;
 			}
-			lil.insert(x, y, c);
+			mtrx.insert(x, y, c);
 		}
+		//return 0;
 		int t;
 		cin >> t;
 		//cout << "t " << t << endl;
@@ -212,20 +247,20 @@ int main() {
 			int b;
 			cin >> q >> a >> b;
 			if (a < 0 || a >= n) {
-				cout << "a " << a << " out of range " << endl;
+				// cout << "a " << a << " out of range " << endl;
 			}
 			if (b < 0 || b >= m) {
-				cout << "b " << b << " out of range " << endl;
+				// cout << "b " << b << " out of range " << endl;
 			}
 			switch (q) {
 			case 0:
-				lil.swapRow(a, b);
+				mtrx.swapRow(a, b);
 				break;
 			case 1:
-				lil.swapColum(a, b);
+				//mtrx.swapColum(a, b);
 				break;
 			case 2:
-				cout << lil.query(a, b) << endl;
+				//cout << mtrx.query(a, b) << endl;
 				break;
 			default:
 				cout << "unknown query" << endl;
@@ -238,7 +273,7 @@ int main() {
 #if 0
 Fail at case 10%: 
 ### orignal nowcoder case
-sed -r -e 's/([0-9]+\s+){3}/&\n/g' -e 's/\s+$//g' sq-t1.txt | ./swap-query | wc -l
+sed -r -e 's/([0-9]+\s+){3}/&\n/g' sq-t1.txt | sed -r -e 's/\s+$//g'  | ./swap-query | wc -l
 用例:
 10 10 20
 3 2 908 6 9 849 8 5 654 5 0 318 8 8 709 5 9 400 7 3 641 4 8 855 0 4 383 9 7 61 1 7 716 2 9 290 5 7 256 8 0 161 3 7 181 0 8 447 9 9 372 0 9 131 7 2 516 2 5 939
@@ -247,4 +282,12 @@ sed -r -e 's/([0-9]+\s+){3}/&\n/g' -e 's/\s+$//g' sq-t1.txt | ./swap-query | wc 
 对应输出应该为:
 echo 'x x x' | tr ' ' "\n"
 -1 -1 -1 -1 -1 -1 -1 -1 716 -1 -1 -1 -1 -1 -1 318 -1 -1 939 -1 -1 131 290 161 -1 -1 -1 -1 709 709 -1 -1 -1 447 -1 -1 -1 516 -1 318 -1 516 -1 -1 -1 -1 400 -1 -1 -1 -1 -1 372 -1 -1 -1 -1 -1 -1 256 -1 -1 -1 -1 -1 -1 400 -1 -1 -1 516 641 372 -1 -1 -1 -1 -1 -1 -1 -1 383 290 -1 716 256 -1 855 -1 -1 61 -1 -1 -1 256 -1 131 -1 -1 -1 -1 -1 -1 -1 -1 855 -1 161 -1 -1 -1 131 -1 -1 -1 -1 -1 -1 -1 -1 161 -1 -1 -1 -1 131 -1 -1 -1 -1 716 -1 -1 939 -1 -1 -1 383 -1 -1 -1 516 -1 -1 -1 -1 -1 -1 318 -1 -1 -1 -1 -1 -1 -1 -1 131 939 -1 -1 -1 -1 -1 -1 -1 709 -1 -1 -1 131 -1 716 181 -1 -1 -1 -1 939 -1 372 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 849 -1 855 -1 -1 654 -1 -1 855 -1 849 -1 -1 -1 -1 447 -1 -1 -1 -1 400 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 654 -1 -1 -1 -1 -1 318 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 716 -1 -1 -1 -1 -1 -1 256 -1 -1 318 -1 939 -1 -1 -1 -1 641 -1 -1 -1 -1 -1 447 383 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 131 -1 -1 -1 -1 372 -1 -1 383 -1 -1 400 -1 -1 -1 -1 -1
+
+
+用例:
+100 90 100 5 7 582 20 81 852 96 14 585 76 21 248 25 44 319 72 15 611 11 46 991 57 35 956 97 74 277 48 31 206 62 71 467 34 76 604 18 51 462 62 83 77 6 31 556 50 19 308 2 17 531 23 62 642 69 20 28 47 82 306 58 85 264 44 73 487 88 66 737 26 68 306 41 28 257 60 42 496 98 10 107 66 8 700 78 81 712 63 80 353 56 66 966 12 20 220 68 62 539 76 88 701 27 17 507 5 77 864 2 15 613 37 71 221 72 7 899 44 13 764 0 28 549 26 9 876 81 0 220 53 11 534 88 22 262 90 42 614 85 81 370 76 68 752 77 64 967 21 17 533 63 51 145 56 26 133 66 89 451 64 6 539 82 55 150 93 35 320 22 68 816 84 42 325 10 34 886 17 50 494 88 39 604 67 70 604 44 22 816 83 76 190 45 82 270 16 33 511 53 4 411 85 40 792 36 77 515 50 67 442 12 17 511 7 7 413 57 21 513 47 86 831 60 46 801 49 17 42 98 46 921 9 18 390 24 30 293 80 65 443 61 44 443 49 77 9 6 84 7 52 8 166 54 65 740 15 79 358 82 25 241 97 38 425 20 41 750 76 74 344 85 49 591 13 12 721 93 14 312 57 44 423 10 22 993 61 30 352 12 26 506 33 71 178 93 87 384 24 78 582 10 1 85 24 2 97 60 0 16 55 1 82 61 1 39 82 0 8 12 0 74 62 0 24 91 2 67 9 0 50 10
+对应输出应该为:
+-1 -1
+你的输出为:
+-1 b 91 out of range -1
 #endif

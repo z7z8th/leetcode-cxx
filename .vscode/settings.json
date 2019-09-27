@@ -75,5 +75,6 @@
 	},
 	"workbench.colorCustomizations": {
 		"tab.unfocusedActiveBorder": "#fff0"
-	}
+	},
+	"C_Cpp.dimInactiveRegions": false
 }

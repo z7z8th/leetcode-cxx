@@ -13,6 +13,7 @@
                 "-Wall",
                 "-O2",
                 "${file}",
+                //"-rdynamic",
                 "-o",
                 "${workspaceFolder}/objs/${fileBasenameNoExtension}"
             ],
@@ -38,6 +39,7 @@
                 "-Wall",
                 "-O0",
                 "${file}",
+                "-rdynamic",
                 "-o",
                 "${workspaceFolder}/objs/${fileBasenameNoExtension}"
             ],
