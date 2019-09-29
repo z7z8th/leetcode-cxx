@@ -32,6 +32,7 @@ Topics: Array, Greedy
 
 using namespace std;
 
+/* add the following code saves 4ms on leetcode */
 static auto fast=[]()
 {
     std::ios_base::sync_with_stdio(false);
