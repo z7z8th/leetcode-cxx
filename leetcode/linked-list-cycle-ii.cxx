@@ -65,13 +65,14 @@ public:
         if(!p2)
             return nullptr;
 
-        /* fast_walk_len - slow_walk_len = circle_len;
+        /* fast_walk_len - slow_walk_len = n * circle_len;
            fast_walk_len = 2 * slow_walk_len;
-           slow_walk_len = circle_len;
+           slow_walk_len = n * circle_len;
            
            straight_len = total_len - circle_len;
-           slow_to_junction = total_len - slow_walk_len;
-           straight_len = slow_to_junction;
+           slow_to_junction = total_len - slow_walk_len = total_len - circle_len - (n-1) * circle_len;
+           straight_len = slow_to_junction + (n-1) * circle_len;
+           another walk from head will meet slow at junction, slow may walk multiple around circle.
         */
 
         p2 = head;
