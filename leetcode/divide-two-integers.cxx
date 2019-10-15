@@ -77,6 +77,10 @@ public:
 			udivend = -dividend;
 		if (divisor < 0 && divisor != INT_MIN)
 			udiv = -divisor;
+		if (udivend < udiv)
+			return 0;
+		if (udivend == udiv)
+			return sign ? -1 : 1;
         deque<unsigned> divs;
         fillDivs(udivend, udiv, divs);
         unsigned quot = doDiv(udivend, divs);
