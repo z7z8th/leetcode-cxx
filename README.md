@@ -31,4 +31,4 @@ The built executable is outputed to `./objs/`.
         ```
         Then add `C:\msys64\mingw64\usr\bin\` to System `PATH`
   * Debug: `gdb.exe`, `Visual Studio CPP Debug` or `windbg`
-* **Try solve it by yourself first!**
+* **Try solving it by yourself first!**
