@@ -1,5 +1,6 @@
 #include <iostream>
 #include <bitset>
+#include <string.h>
 
 using namespace std;
 
@@ -8,10 +9,12 @@ unsigned int my_fls(unsigned n)
     return 31 - __builtin_clz(n|1);
 }
 
-inline void prb(unsigned n)
+inline void prb(unsigned n, bool bin = true)
 {
-    // cout << n << "(" << bitset<32>(n) << ") ";
-    cout << hex << n << " ";
+    if (bin) {
+        cout << hex << n << "(" << bitset<16>(n) << ") ";
+    } else
+        cout << hex << n << " ";
 }
 
 bitset<__UINT32_MAX__> valcc;
@@ -38,7 +41,7 @@ unsigned tnp1(unsigned n)
             }
             n = (n<<1)+n+1;
         } else {
-            n = n>>1;
+            n = n>>(ffs(n)-1);
         }
         int ls = my_fls(n);
         if (ls > this_max_bitset) {
@@ -54,7 +57,7 @@ unsigned tnp1(unsigned n)
         }
     } while (n >= 2);
 
-    cout << "(iter " << dec << iter << ")(maxbit " << this_max_bitset << ")" <<endl<<endl;
+    cout << dec << "(iter " << iter << ")(maxbit " << this_max_bitset << ")" <<endl<<endl;
     if (this_max_bitset > max_bitset) {
         max_bitset = this_max_bitset;
         max_bitset_n = orig_n;
